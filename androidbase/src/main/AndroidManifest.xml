@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.friean.androidbase">
 
-    <application>
-        <activity android:name=".handler.HandlerActivity"></activity>
+    <application tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".threadpoolexecutor.ThreadActivity">
+
+        </activity>
+        <activity android:name=".handler.HandlerActivity" />
+
     </application>
 
 </manifest>

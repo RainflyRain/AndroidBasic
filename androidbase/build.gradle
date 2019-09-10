@@ -1,4 +1,11 @@
-apply plugin: 'com.android.library'
+boolean isAndroidBaseApplication = true
+if (isAndroidBaseApplication){
+    apply plugin: 'com.android.application'
+}else {
+    apply plugin: 'com.android.library'
+}
+
+println(isAndroidBaseApplication)
 
 android {
     compileSdkVersion 28
@@ -10,9 +17,22 @@ android {
         versionCode 1
         versionName "1.0"
 
+        if (isAndroidBaseApplication){
+            applicationId "com.friean.androidbase"
+        }
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
+
+    if (this.isAndroidBaseApplication){
+        sourceSets {
+            main{
+                manifest.srcFile 'src/main/developconfig/AndroidManifest.xml'
+            }
+        }
+    }
+
 
     buildTypes {
         release {
