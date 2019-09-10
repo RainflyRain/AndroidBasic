@@ -7,6 +7,6 @@ class BuildPlugin implements Plugin<Project>{
 
     @Override
     void apply(Project project) {
-        println 'hello plugin build'
+        println 'hello plugin build'+project.name
     }
 }
