@@ -78,7 +78,24 @@ public class HandlerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_handler);
 
-        init();
+//        init();
+
+        localThreadHandlerInit();
+    }
+
+    private void localThreadHandlerInit() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                @SuppressLint("HandlerLeak")
+                Handler handler = new Handler(){
+                    @Override
+                    public void handleMessage(Message msg) {
+
+                    }
+                };
+            }
+        }).start();
     }
 
     private void init() {
@@ -90,9 +107,6 @@ public class HandlerActivity extends AppCompatActivity {
 
                 Message message1 = Message.obtain(handler, 3);
                 message1.sendToTarget();
-
-                Looper.prepare();
-                Looper.loop();
 
             }
         }).start();

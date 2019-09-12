@@ -1,5 +1,14 @@
 apply plugin: 'java-library'
 
+println(isLoadAndroidBase.class)
+
+//java system.out.print中文乱码
+buildscript {
+    tasks.withType(JavaCompile){
+        options.encoding = "UTF-8"
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

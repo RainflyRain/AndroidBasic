@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import com.friean.javabase.AnonymousClass;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
 
 //        startActivity(new Intent(this, HandlerActivity.class));
 
-        AnonymousClass ac = new AnonymousClass();
     }
 
     /**

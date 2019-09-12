@@ -1,10 +1,12 @@
 package com.friean.androidbase.threadpoolexecutor;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.friean.androidbase.R;
 
@@ -15,27 +17,62 @@ public class ThreadActivity extends AppCompatActivity {
 
     private static final String TAG  = ThreadActivity.class.getSimpleName();
 
+    private TextView textView;
+
+    private final List<AsyncTask> list = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thread);
 
-        final List<AsyncTask> list = new ArrayList<>();
-
-        for (int i = 0; i < 10; i++) {
-            final AsyncTask<String, Integer, String> task = new MyAsynTask().execute("hello"+i);
-            list.add(task);
-        }
-
-        findViewById(R.id.textView).setOnClickListener(new View.OnClickListener() {
+        textView = findViewById(R.id.textView);
+        textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((AsyncTask)(list.get(8))).cancel(true);
+                //可取消,取消后，isCanceled()返回出，并且后续任务不再执行
+                list.get(8).cancel(true);
             }
         });
+//        initAsynTasks();
+        initIntentService();
+    }
+
+    private void initIntentService() {
+        Intent intent = new Intent(this,MyIntentService.class);
+        intent.putExtra("task_action","intent service task1");
+        startService(intent);
+        intent.putExtra("task_action","intent service task2");
+        startService(intent);
+        intent.putExtra("task_action","intent service task3");
+        startService(intent);
+    }
+
+
+    private void initAsynTasks() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 10; i++) {
+                //串行执行
+//              final AsyncTask<String, Integer, String> task = new MyAsynTask().execute("hello"+i);
+                //并行执行
+                final AsyncTask<String, Integer, String> task = new MyAsynTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,"hello"+i);
+                list.add(task);
+                }
+            }
+        }).start();
     }
 
     /**
+     * 1、每个AsynTask实例对象只能执行一次，否则 抛出IllegalStateException
+     * 2、AsynTask只能在UI线程创建实例或者说实现类需要申明在UI线程
+     * 3、AsynTask默认串行执行所有的任务
+     * 4、AsynTask.executeOnExecutor(AsynTask.ThreadPoolExecutor,"params")可以实现并行执行
+     * 5、AysnTask的所有任务存储在static class SerialExecutord的ArrayDeque<Runnable> mTasks =
+     * new ArrayDeque<Runnable>()中，依次执行
+     *
+     *
      * 参数1：doInBackground(String...)d的参数类型
      * 参数2：onProgressUpdate(Integer... values) 参数类型
      * 参数3：onPostExecute(String s) 参数类型
@@ -52,7 +89,7 @@ public class ThreadActivity extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
             String value = strings[0];
-            for (int i = 0; i < 10; i++) {
+            for (int i = 0; i < 3; i++) {
                 try {
                     Thread.sleep(1000);
                     publishProgress(i);
@@ -72,12 +109,13 @@ public class ThreadActivity extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             Log.i(TAG, "onPostExecute: "+s);
+            textView.setText(s);
         }
 
         @Override
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
-            Log.i(TAG, "onProgressUpdate: "+values[0]);
+//            Log.i(TAG, "onProgressUpdate: "+values[0]);
         }
 
 
