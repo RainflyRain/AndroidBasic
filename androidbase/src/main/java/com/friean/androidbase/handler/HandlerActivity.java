@@ -78,11 +78,15 @@ public class HandlerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_handler);
 
-//        init();
+        init();
 
-        localThreadHandlerInit();
+//        localThreadHandlerInit();
     }
 
+    /**
+     * java.lang.RuntimeException: Can't create handler inside thread that has
+     * not called Looper.prepare()
+     */
     private void localThreadHandlerInit() {
         new Thread(new Runnable() {
             @Override
