@@ -1,3 +1,3 @@
-include ':app', ':buildSrc'
+include ':app', ':buildSrc', ':uiconponent'
 include ':androidbase'
 include ':javabase'
