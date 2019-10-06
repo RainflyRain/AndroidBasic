@@ -16,7 +16,7 @@ android {
         if (!isLoadAndroidBase.toBoolean()){
             applicationId "com.friean.androidbase"
         }
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
 
