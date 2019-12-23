@@ -12,5 +12,8 @@ Hander消息机制
 javabase 模块：
 1、匿名类用法
 
+uicomponent 模块：
+SmartSlide:滑动状态分为三种：IDLE、DRAGGING、SETLLING。需要处理的部分为DRAGGING且满足滑动条件的部分。
+
 
 

@@ -45,7 +45,9 @@ dependencies {
 
     implementation rootProject.ext.dependencies.libAndroidSupportV7
     implementation rootProject.ext.dependencies.libConstraintLayout
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation rootProject.ext.dependencies.libjunit
     androidTestImplementation rootProject.ext.dependencies.libTestRunner
     androidTestImplementation rootProject.ext.dependencies.libTestEspresso
+    implementation 'androidx.recyclerview:recyclerview:1.1.0-beta05'
 }
