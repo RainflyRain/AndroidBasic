@@ -63,6 +63,7 @@ public class SmartHelper {
      */
     private int mPointersDown;
 
+    // down事件的初始值
     private float[] mInitialMotionX;
     private float[] mInitialMotionY;
     private float[] mLastMotionX;
@@ -107,7 +108,6 @@ public class SmartHelper {
             interpolator = sInterpolator;
         }
         if (mScroller != null) {
-//            abort();
             mScroller = null;
         }
         mScroller = new OverScroller(context, interpolator);
@@ -171,7 +171,7 @@ public class SmartHelper {
 
             case MotionEvent.ACTION_POINTER_DOWN: {
                 Log.i(TAG, "shouldInterceptTouchEvent: ACTION_POINTER_DOWN");
-                final int pointerId = ev.getPointerId(0);
+                final int pointerId = ev.getPointerId(actionIndex);
                 final float x = ev.getX(actionIndex);
                 final float y = ev.getY(actionIndex);
 
@@ -195,7 +195,6 @@ public class SmartHelper {
 
                     final int pointerId = ev.getPointerId(i);
 
-                    // If pointer is invalid then skip the ACTION_MOVE.
                     //跳过所有的ACTION_DOWN
                     if (!isValidPointerForActionMove(pointerId)) {
                         continue;
@@ -232,7 +231,8 @@ public class SmartHelper {
 
             default:
         }
-        return true;
+        Log.i(TAG, "shouldInterceptTouchEvent: "+(mDragState==STATE_DRAGGING));
+        return mDragState == STATE_DRAGGING;
     }
 
     /**
@@ -299,8 +299,6 @@ public class SmartHelper {
                 initY = mInitialMotionY[pointerId];
             }
             mSwipeConsumer.onSwipeAccepted(pointerId, settling, initX, initY);
-            mClampedDistanceX = mSwipeConsumer.clampDistanceHorizontal(0, 0);
-            mClampedDistanceY = mSwipeConsumer.clampDistanceVertical(0, 0);
             setDragState(touchMode ? STATE_DRAGGING : STATE_NONE_TOUCH);
             return true;
         }
@@ -477,10 +475,8 @@ public class SmartHelper {
      * @param dy y轴本次move事件的拖动距离
      */
     private void dragTo(int x, int y, int dx, int dy) {
-        int clampedX = x;
-        int clampedY = y;
-        final int oldX = mClampedDistanceX;
-        final int oldY = mClampedDistanceY;
+
+
         if (dx != 0) {
             mClampedDistanceX = x;
         }
@@ -488,11 +484,8 @@ public class SmartHelper {
             mClampedDistanceY = y;
         }
 
-        if (dx != 0 || dy != 0) {
-            final int clampedDx = clampedX - oldX;
-            final int clampedDy = clampedY - oldY;
-            Log.i(TAG, "fei dragTo: "+clampedX+","+clampedY+","+clampedDx+","+clampedDy+","+dx+","+dy);
-            mSwipeConsumer.onSwipeDistanceChanged(clampedX, clampedY, clampedDx, clampedDy);
+        if ((dx != 0) || (dy != 0)) {
+            mSwipeConsumer.onSwipeDistanceChanged(x, y, dx, dy);
         }
     }
 

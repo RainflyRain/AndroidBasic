@@ -3,26 +3,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.friean.androidbase">
 
-    <application tools:ignore="GoogleAppIndexingWarning"
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        >
-        <activity android:name=".threadpoolexecutor.ThreadActivity">
-
-        </activity>
-        <activity android:name=".handler.HandlerActivity" >
+        tools:ignore="GoogleAppIndexingWarning">
+        <!--aidl模块-->
+        <activity android:name=".aidl.AidlActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <service android:name=".threadpoolexecutor.MyIntentService">
+        <service android:name=".aidl.BookManagerService"
+            android:process=":remote"
+            >
 
         </service>
+        <activity android:name=".websocket.WebSocketActivity">
 
+        </activity>
+        <activity android:name=".threadpoolexecutor.ThreadActivity" />
+        <activity android:name=".handler.HandlerActivity"></activity>
+
+        <service android:name=".threadpoolexecutor.MyIntentService" />
     </application>
 
 </manifest>

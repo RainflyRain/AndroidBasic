@@ -217,7 +217,8 @@ public abstract class SlideConsumer {
             mCachedSwipeDistanceX = mCurSwipeDistanceX;
             mCachedSwipeDistanceY = mCurSwipeDistanceY;
         }
-        mSwipeOpenDistance = getSwipeOpenDistance();
+//        mSwipeOpenDistance = getSwipeOpenDistance();
+        mSwipeOpenDistance = mWrapper.getMeasuredHeight();
         if (mOverSwipeFactor > 0) {
             mSwipeMaxDistance = (int) (mSwipeOpenDistance * (1 + mOverSwipeFactor));
         } else {
@@ -308,33 +309,27 @@ public abstract class SlideConsumer {
         return null;
     }
 
-    public int clampDistanceHorizontal(int distanceX, int dx) {
-        return distanceX;
-    }
-
-    public int clampDistanceVertical(int distanceY, int dy) {
-        return distanceY;
-    }
-
     /**
      * The core function to change layouts
-     * @param clampedDistanceX swipe horizontal distance clamped via {@link #clampDistanceHorizontal(int, int)}
-     * @param clampedDistanceY swipe vertical distance clamped via {@link #clampDistanceVertical(int, int)}
+     * @param clampedDistanceX swipe horizontal distance clamped via {@link #(int, int)}
+     * @param clampedDistanceY swipe vertical distance clamped via {@link #(int, int)}
      * @param dx delta x distance from last call
      * @param dy delta y distance from last call
-     * @see #clampDistanceHorizontal(int, int)
-     * @see #clampDistanceVertical(int, int)
+     * @see #(int, int)
+     * @see #(int, int)
      */
     public void onSwipeDistanceChanged(int clampedDistanceX, int clampedDistanceY, int dx, int dy) {
-        int maxDistance = getOpenDistance();
+//        int maxDistance = getOpenDistance();
+        int maxDistance = mWrapper.getMeasuredHeight()/2;
         if (maxDistance <= 0) {
             return;
         }
-        float lastProgress = this.mProgress;
 
         mSwipeOpenDistance = getOpenDistance();
 
-        mProgress = Math.abs((float) mCurSwipeDistanceX / mSwipeOpenDistance);
+        mProgress = Math.abs((float) mCurSwipeDistanceY / mSwipeOpenDistance);
+
+        Log.i(TAG, "onSwipeDistanceChanged: fei ="+mProgress+"==="+mDirection+"=="+mSwipeHelper.getDragState());
 
         mCurSwipeDistanceX = clampedDistanceX;
         mCurSwipeDistanceY = clampedDistanceY;
@@ -425,6 +420,7 @@ public abstract class SlideConsumer {
     public SlideConsumer slideTo(boolean smooth, float progress) {
         progress = SmartSlide.ensureBetween(progress, 0F, 1F);
         int finalX = 0, finalY = 0;
+        mSwipeOpenDistance = mWrapper.getMeasuredHeight()/2;
         int distance = (int) (mSwipeOpenDistance * progress);
         switch (mDirection) {
             case DIRECTION_LEFT:    finalX = distance; break;
