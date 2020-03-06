@@ -1,21 +1,27 @@
 package com.example.uiconponent.listview;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uiconponent.R;
-import com.example.uiconponent.listview.dummy.DummyContent;
-import com.example.uiconponent.listview.dummy.DummyContent.DummyItem;
+import com.example.uiconponent.drawable.ArrowDrawable;
+import com.example.uiconponent.smartslide.DrawerConsumer;
 import com.example.uiconponent.smartslide.SmartSlide;
+import com.example.uiconponent.smartslide.dummy.DummyContent;
+import com.example.uiconponent.smartslide.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
@@ -24,6 +30,8 @@ import com.example.uiconponent.smartslide.SmartSlide;
  * interface.
  */
 public class ItemFragment extends Fragment {
+
+    public static final String TAG = "ItemFragment";
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
@@ -38,7 +46,6 @@ public class ItemFragment extends Fragment {
     public ItemFragment() {
     }
 
-    // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
     public static ItemFragment newInstance(int columnCount) {
         ItemFragment fragment = new ItemFragment();
@@ -64,18 +71,19 @@ public class ItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        TextView tvTitle = view.findViewById(R.id.tv_title);
+        ImageView tvTitle = view.findViewById(R.id.tv_title);
+        ArrowDrawable drawable =new ArrowDrawable();
+        int width = drawable.getBounds().width();
+        int height = drawable.getBounds().height();
+        drawable.invalidateSelf();
+        Log.i(TAG, "onCreateView: "+width+"---"+height);
+        drawable.setColor(0xff666666);
+        tvTitle.setImageDrawable(drawable);
+
+
+        NestedScrollView scrollView;
 
         TextView tvContent = view.findViewById(R.id.tv_content);
-//        tvContent.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return true;
-//            }
-//        });
-
-        SmartSlide.wrap(tvTitle)
-        .addConsumer(new DrawerConsumer());
 
         // Set the adapter
         Context context = view.getContext();
@@ -86,6 +94,8 @@ public class ItemFragment extends Fragment {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
         recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+//        SmartSlide.wrap(recyclerView)
+//                .addConsumer(new DrawerConsumer());
         return view;
     }
 

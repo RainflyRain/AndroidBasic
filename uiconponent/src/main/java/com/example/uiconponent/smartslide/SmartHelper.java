@@ -141,7 +141,7 @@ public class SmartHelper {
         final int actionIndex = ev.getActionIndex();
 
         if (action == MotionEvent.ACTION_DOWN) {
-            //初次 down事件，清除上次数据
+            //初次action down事件，清除上次数据
             cancel();
         }
 
@@ -161,9 +161,8 @@ public class SmartHelper {
                 //保存初始信息
                 saveInitialMotion(x, y, pointerId);
 
-                // Catch a settling view if possible.
-                if (mDragState == STATE_SETTLING || mDragState == STATE_NONE_TOUCH) {
-                    //感觉什么也没做，这个方法在move状态有用
+                if (mDragState == STATE_SETTLING ) {
+                    //这个方法在move状态有用
                     trySwipe(pointerId, true, x, y, 0, 0);
                 }
                 break;
@@ -187,6 +186,7 @@ public class SmartHelper {
             }
 
             case MotionEvent.ACTION_MOVE: {
+                Log.i(TAG, "shouldInterceptTouchEvent: ACTION_MOVE");
                 if (mInitialMotionX == null || mInitialMotionY == null) {
                     break;
                 }
@@ -229,9 +229,18 @@ public class SmartHelper {
                 break;
             }
 
+            case MotionEvent.ACTION_POINTER_UP:{
+                Log.i(TAG, "shouldInterceptTouchEvent: ACTION_POINTER_UP");
+                break;
+            }
+
+            case MotionEvent.ACTION_UP:{
+                Log.i(TAG, "shouldInterceptTouchEvent: ACTION_UP");
+                break;
+            }
+
             default:
         }
-        Log.i(TAG, "shouldInterceptTouchEvent: "+(mDragState==STATE_DRAGGING));
         return mDragState == STATE_DRAGGING;
     }
 
@@ -292,6 +301,7 @@ public class SmartHelper {
         //如果可以滑动激活当前pointerId
         if (swipe) {
             mActivePointerId = pointerId;
+            //如果初始值存在，获取上次缓存的初始位置
             float initX = 0;
             float initY = 0;
             if (pointerId >= 0 && pointerId < mInitialMotionX.length && pointerId < mInitialMotionY.length) {
@@ -427,6 +437,7 @@ public class SmartHelper {
 
         switch (action) {
             case MotionEvent.ACTION_DOWN: {
+                Log.i(TAG, "processTouchEvent: ACTION_DOWN");
                 final float x = ev.getX();
                 final float y = ev.getY();
                 final int pointerId = ev.getPointerId(actionIndex);
@@ -436,10 +447,11 @@ public class SmartHelper {
             }
             
             case MotionEvent.ACTION_POINTER_DOWN:
+                Log.i(TAG, "processTouchEvent: ACTION_POINTER_DOWN");
                 break;
 
             case MotionEvent.ACTION_MOVE: {
-
+                Log.i(TAG, "processTouchEvent: ACTION_MOVE");
                 final int index = ev.findPointerIndex(mActivePointerId);
                 if (index < 0) {
                     break;
@@ -457,11 +469,13 @@ public class SmartHelper {
             }
 
             case MotionEvent.ACTION_UP: {
+                Log.i(TAG, "processTouchEvent: ACTION_UP");
                 releaseViewForPointerUp();
                 break;
             }
             
             case MotionEvent.ACTION_POINTER_UP:
+                Log.i(TAG, "processTouchEvent: ACTION_POINTER_UP");
                 break;
 
             default:

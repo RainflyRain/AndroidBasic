@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.uiconponent.R;
 import com.example.uiconponent.listview.ItemFragment.OnListFragmentInteractionListener;
-import com.example.uiconponent.listview.dummy.DummyContent.DummyItem;
+import com.example.uiconponent.smartslide.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 

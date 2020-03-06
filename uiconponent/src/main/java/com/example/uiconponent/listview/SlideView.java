@@ -47,7 +47,7 @@ public class SlideView extends LinearLayout {
     }
 
     private void smoothScrollTo(int desX,int desY){
-        scroller.startScroll(childView.getLeft(),childView.getTop(),0,desY,1000);
+        scroller.startScroll(childView.getLeft(),childView.getTop(),0,desY,5000);
         invalidate();
     }
 
@@ -62,27 +62,19 @@ public class SlideView extends LinearLayout {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-//        scrollBy(0,dp2px(300,getContext()));
-    }
-
-    public static int dp2px(int dp, Context context){
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_MOVE){
-            Log.i(TAG, "onInterceptTouchEvent: 拦截成功");
             return true;
         }
-//        return super.onInterceptTouchEvent(ev);
-        return true;
+        return false;
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
        return slideHelper.startSlide(event);
-//        return super.onTouchEvent(event);
     }
 
     class SlideState{
@@ -90,6 +82,7 @@ public class SlideView extends LinearLayout {
          Point sPoint;
          Point mPoint;
          Point ePoint;
+         Point lastPoint;
          int sTop;
          int distence;
          int maxDis = 300;
@@ -104,8 +97,10 @@ public class SlideView extends LinearLayout {
     }
 
     class SlideHelper{
+
         SlideState state;
         MotionEvent event;
+
         public SlideHelper(SlideState state) {
             this.state = state;
         }
@@ -114,7 +109,7 @@ public class SlideView extends LinearLayout {
             this.event = event;
             switch (event.getAction()){
                 case MotionEvent.ACTION_DOWN:
-                    Log.i(TAG, "startSlide: 按下");
+                    Log.i(TAG, "startSlide: action down");
                     state.clearSate();
                     if (childView == null){
                         childView = getChildAt(0);
@@ -124,24 +119,17 @@ public class SlideView extends LinearLayout {
                     state.consumer = true;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    if (state.distence > state.maxDis){
+                    if (Math.abs(state.distence) > state.maxDis){
                         break;
                     }
                     state.mPoint =  new Point((int)(event.getX()),(int) (event.getY()));
                     state.consumer = true;
                     state.distence = (state.mPoint.y-state.sPoint.y);
-                    Log.i(TAG, "startSlide: 滑动距离 = "+state.distence);
-                    smoothScrollTo(childView.getLeft(),-state.distence);
-//                    ViewCompat.offsetTopAndBottom(SlideView.this,state.distence/10);
-//                    scrollTo(0,headerHeight-state.distence);
-//                    childView.layout(childView.getLeft(),childView.getTop()+state.distence/10,childView.getRight(),childView.getBottom());
+                    ViewCompat.offsetTopAndBottom(childView,state.distence/5);
                     break;
                 case MotionEvent.ACTION_UP:
-                    Log.i(TAG, "startSlide: 抬起");
                     state.ePoint =  new Point((int)(event.getX()),(int) (event.getY()));
                     state.consumer = true;
-//                    state.distence = state.ePoint.y - state.sPoint.y;
-//                    childView.layout(childView.getLeft(),state.sTop,childView.getRight(),childView.getBottom());
                     smoothScrollTo(0,0);
                     break;
                 default:

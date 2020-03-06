@@ -7,39 +7,51 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <TextView
+    <ImageView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:text="head"
         android:textSize="35sp"
         android:gravity="center"
-        android:background="@color/colorAccent"
+        android:visibility="visible"
         />
 
-    <com.example.uiconponent.listview.SlideView2
+    <com.example.uiconponent.listview.SlideView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
         android:background="@color/shadow_gra"
         >
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:background="@color/colorPrimaryDark"
+            android:gravity="center"
+            android:textSize="35sp"
+            android:background="@android:color/holo_purple"
+            android:text="blue"
             />
-    </com.example.uiconponent.listview.SlideView2>
+    </com.example.uiconponent.listview.SlideView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
+    <com.example.uiconponent.refresh.FRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        app:layoutManager="LinearLayoutManager"
-        tools:context="com.example.uiconponent.listview.ItemFragment"
-        tools:listitem="@layout/fragment_item" />
+        android:layout_height="match_parent">
+
+        <com.example.uiconponent.refresh.FDefaultHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:layoutManager="LinearLayoutManager"
+            tools:context="com.example.uiconponent.listview.ItemFragment"
+            tools:listitem="@layout/fragment_item"
+            />
+    </com.example.uiconponent.refresh.FRefreshLayout>
 </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.friean.androidbasic;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 
@@ -23,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
 
 //        startActivity(new Intent(this, HandlerActivity.class));
 
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
     }
 
     /**

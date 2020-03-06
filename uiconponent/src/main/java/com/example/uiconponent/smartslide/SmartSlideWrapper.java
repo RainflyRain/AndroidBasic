@@ -45,7 +45,9 @@ public class SmartSlideWrapper extends ViewGroup {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (mSmartHelper != null){
-            return mSmartHelper.shouldInterceptTouchEvent(ev);
+            boolean intercepted = mSmartHelper.shouldInterceptTouchEvent(ev);
+            Log.i(TAG, "onInterceptTouchEvent: into SmartHelper.shouldInterceptTouchEvent()-"+ev.getAction()+"-"+intercepted);
+            return intercepted;
         }
         return super.onInterceptTouchEvent(ev);
     }
@@ -54,6 +56,7 @@ public class SmartSlideWrapper extends ViewGroup {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (mSmartHelper != null) {
+            Log.i(TAG, "onTouchEvent into processTouchEvent: "+event.getAction());
             mSmartHelper.processTouchEvent(event);
             return true;
         }

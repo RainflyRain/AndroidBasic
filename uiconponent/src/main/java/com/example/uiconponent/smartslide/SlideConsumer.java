@@ -9,8 +9,8 @@ import android.widget.AbsListView;
 import android.widget.AbsSeekBar;
 
 import com.example.uiconponent.listview.SlideDistanceCalculator;
-import com.example.uiconponent.listview.internal.ScrimView;
-import com.example.uiconponent.listview.internal.ViewCompat;
+import com.example.uiconponent.smartslide.internal.ScrimView;
+import com.example.uiconponent.smartslide.internal.ViewCompat;
 
 public abstract class SlideConsumer {
 
@@ -101,7 +101,7 @@ public abstract class SlideConsumer {
     protected boolean mDisableNestedScroll, mDisableNestedFly;
 
     /**
-     * 默认 在settling状态总是可以滑动
+     * 默认 在settling状态总是不拦截滑动
      * @param pointerId pointer id
      * @param downX motion event x for pointerId
      * @param downY motion event y for pointerId
@@ -207,6 +207,7 @@ public abstract class SlideConsumer {
         return handle;
     }
 
+    //满足滑动条件的一次事件
     public void onSwipeAccepted(int activePointerId, boolean settling, float initialMotionX, float initialMotionY) {
         mSwiping = true;
         ViewParent parent = mWrapper.getParent();

@@ -1,4 +1,4 @@
-package com.example.uiconponent.listview;
+package com.example.uiconponent.smartslide;
 
 import android.view.View;
 

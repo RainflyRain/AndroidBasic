@@ -1,4 +1,4 @@
-package com.example.uiconponent.listview.internal;
+package com.example.uiconponent.smartslide.internal;
 
 import android.content.Context;
 import android.graphics.Canvas;
