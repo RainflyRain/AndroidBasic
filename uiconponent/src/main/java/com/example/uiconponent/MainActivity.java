@@ -10,8 +10,14 @@ import android.view.View;
 
 import com.example.uiconponent.listview.ListActivity;
 
+/**
+ * ui模块入口
+ */
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     * 侧滑组件
+     */
     SlidingPaneLayout spl;
 
     @Override
@@ -42,8 +48,4 @@ public class MainActivity extends AppCompatActivity {
         
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-    }
 }

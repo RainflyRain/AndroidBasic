@@ -5,20 +5,20 @@ if (isLoadAndroidBase.toBoolean()) {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
-            storePassword 'kb_2015'
-            keyAlias = 'fly'
-            keyPassword 'kb_2015'
-        }
-        release {
-            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
-            storePassword 'kb_2015'
-            keyAlias = 'fly'
-            keyPassword 'kb_2015'
-        }
-    }
+//    signingConfigs {
+//        debug {
+//            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
+//            storePassword 'kb_2015'
+//            keyAlias = 'fly'
+//            keyPassword 'kb_2015'
+//        }
+//        release {
+//            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
+//            storePassword 'kb_2015'
+//            keyAlias = 'fly'
+//            keyPassword 'kb_2015'
+//        }
+//    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
@@ -46,7 +46,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
