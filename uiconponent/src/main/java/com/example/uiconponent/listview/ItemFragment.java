@@ -18,10 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uiconponent.R;
 import com.example.uiconponent.drawable.ArrowDrawable;
-import com.example.uiconponent.smartslide.DrawerConsumer;
-import com.example.uiconponent.smartslide.SmartSlide;
-import com.example.uiconponent.smartslide.dummy.DummyContent;
-import com.example.uiconponent.smartslide.dummy.DummyContent.DummyItem;
 
 /**
  * A fragment representing a list of Items.
@@ -39,10 +35,6 @@ public class ItemFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
-    /**
-     * Mandatory empty constructor for the fragment manager to instantiate the
-     * fragment (e.g. upon screen orientation changes).
-     */
     public ItemFragment() {
     }
 
@@ -71,19 +63,6 @@ public class ItemFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        ImageView tvTitle = view.findViewById(R.id.tv_title);
-        ArrowDrawable drawable =new ArrowDrawable();
-        int width = drawable.getBounds().width();
-        int height = drawable.getBounds().height();
-        drawable.invalidateSelf();
-        Log.i(TAG, "onCreateView: "+width+"---"+height);
-        drawable.setColor(0xff666666);
-        tvTitle.setImageDrawable(drawable);
-
-
-        NestedScrollView scrollView;
-
-        TextView tvContent = view.findViewById(R.id.tv_content);
 
         // Set the adapter
         Context context = view.getContext();
@@ -93,9 +72,8 @@ public class ItemFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DummyContent.ITEMS, mListener));
-//        SmartSlide.wrap(recyclerView)
-//                .addConsumer(new DrawerConsumer());
+        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DammyContent.ITEMS, mListener));
+
         return view;
     }
 
@@ -129,6 +107,6 @@ public class ItemFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(DammyContent.DummyItem item);
     }
 }

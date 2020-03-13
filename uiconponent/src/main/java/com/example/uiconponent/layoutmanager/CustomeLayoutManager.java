@@ -1,4 +1,4 @@
-package com.example.uiconponent.listview;
+package com.example.uiconponent.layoutmanager;
 
 import androidx.recyclerview.widget.RecyclerView;
 

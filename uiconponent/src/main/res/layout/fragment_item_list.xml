@@ -7,32 +7,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
-    <ImageView
-        android:id="@+id/tv_title"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:text="head"
-        android:textSize="35sp"
-        android:gravity="center"
-        android:visibility="visible"
-        />
-
-    <com.example.uiconponent.listview.SlideView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@color/shadow_gra"
-        >
-        <TextView
-            android:id="@+id/tv_content"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            android:textSize="35sp"
-            android:background="@android:color/holo_purple"
-            android:text="blue"
-            />
-    </com.example.uiconponent.listview.SlideView>
 
     <com.example.uiconponent.refresh.FRefreshLayout
         android:layout_width="match_parent"
@@ -53,5 +27,6 @@
             tools:listitem="@layout/fragment_item"
             />
     </com.example.uiconponent.refresh.FRefreshLayout>
+
 </LinearLayout>
 

@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.uiconponent.R;
-import com.example.uiconponent.smartslide.dummy.DummyContent;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class ListActivity extends AppCompatActivity implements ItemFragment.OnLi
     }
 
     @Override
-    public void onListFragmentInteraction(DummyContent.DummyItem item) {
+    public void onListFragmentInteraction(DammyContent.DummyItem item) {
         Toast.makeText(this,item.details,Toast.LENGTH_SHORT).show();
     }
 
