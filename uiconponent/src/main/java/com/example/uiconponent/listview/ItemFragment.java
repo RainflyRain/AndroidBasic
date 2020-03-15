@@ -1,7 +1,6 @@
 package com.example.uiconponent.listview;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,8 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uiconponent.R;
 import com.example.uiconponent.drawable.ArrowDrawable;
-import com.example.uiconponent.smartslide.DrawerConsumer;
-import com.example.uiconponent.smartslide.SmartSlide;
 import com.example.uiconponent.smartslide.dummy.DummyContent;
 import com.example.uiconponent.smartslide.dummy.DummyContent.DummyItem;
 
@@ -70,20 +67,6 @@ public class ItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-
-        ImageView tvTitle = view.findViewById(R.id.tv_title);
-        ArrowDrawable drawable =new ArrowDrawable();
-        int width = drawable.getBounds().width();
-        int height = drawable.getBounds().height();
-        drawable.invalidateSelf();
-        Log.i(TAG, "onCreateView: "+width+"---"+height);
-        drawable.setColor(0xff666666);
-        tvTitle.setImageDrawable(drawable);
-
-
-        NestedScrollView scrollView;
-
-        TextView tvContent = view.findViewById(R.id.tv_content);
 
         // Set the adapter
         Context context = view.getContext();
