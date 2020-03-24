@@ -1,29 +1,26 @@
 package com.example.uiconponent.listview;
 
-import androidx.annotation.Nullable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import android.os.Bundle;
-import android.widget.Toast;
-
 import com.example.uiconponent.R;
-import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.util.ArrayList;
-import java.util.List;
+/**
+ * UI 效果列表
+ */
+public class ListActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener, BottomNavigationView.OnNavigationItemSelectedListener {
 
-public class ListActivity extends AppCompatActivity implements ItemFragment.OnListFragmentInteractionListener {
-
-    ConstraintLayout fragmentContainer ;
-    private List<Fragment> fragmentList;
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    private static final String TAG = "listActivity";
+    private ViewPager viewPager;
     private ListActivityModel listActivityModel;
+    private BottomNavigationView bottomNavigationView;
+    private ListActivityItemFragmentAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,42 +30,25 @@ public class ListActivity extends AppCompatActivity implements ItemFragment.OnLi
     }
 
     private void init() {
-        fragmentContainer = findViewById(R.id.ui_fragment_list_container);
-        tabLayout = findViewById(R.id.layoutTab);
+
+        bottomNavigationView = findViewById(R.id.bottomNavigationView);
         viewPager = findViewById(R.id.viewPager);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
         listActivityModel = new ListActivityModel();
 
-        fragmentList = listActivityModel.getFragments();
-        tabLayout.setupWithViewPager(viewPager);
-        viewPager.setAdapter(new ItemFragmentAdapter(getSupportFragmentManager()));
+        viewPager.setAdapter(adapter = new ListActivityItemFragmentAdapter(getSupportFragmentManager(),
+                listActivityModel));
     }
 
     @Override
-    public void onListFragmentInteraction(DammyContent.DummyItem item) {
-        Toast.makeText(this,item.details,Toast.LENGTH_SHORT).show();
+    public void onListFragmentInteraction(String item) {
+        Log.i(TAG, "onListFragmentInteraction: "+item);
     }
 
-    class ItemFragmentAdapter extends FragmentPagerAdapter{
-
-        public ItemFragmentAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return fragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return fragmentList.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return listActivityModel.getTitle(position);
-        }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        viewPager.setCurrentItem(listActivityModel.getIndex(item),false);
+        return true;
     }
 }

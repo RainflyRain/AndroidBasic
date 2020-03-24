@@ -1,44 +1,35 @@
 package com.example.uiconponent.listview;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import androidx.core.widget.NestedScrollView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.uiconponent.R;
-import com.example.uiconponent.drawable.ArrowDrawable;
 
 /**
  * A fragment representing a list of Items.
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
- * interface.
  */
 public class ItemFragment extends Fragment {
 
     public static final String TAG = "ItemFragment";
-
-    // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
-    // TODO: Customize parameters
+
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
 
     public ItemFragment() {
     }
 
-    @SuppressWarnings("unused")
+
     public static ItemFragment newInstance(int columnCount) {
         ItemFragment fragment = new ItemFragment();
         Bundle args = new Bundle();
@@ -61,9 +52,12 @@ public class ItemFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        return inflater.inflate(R.layout.fragment_item_list, container, false);
+    }
 
-
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         // Set the adapter
         Context context = view.getContext();
         RecyclerView recyclerView = view.findViewById(R.id.list);
@@ -72,11 +66,8 @@ public class ItemFragment extends Fragment {
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        recyclerView.setAdapter(new MyItemRecyclerViewAdapter(DammyContent.ITEMS, mListener));
-
-        return view;
+        recyclerView.setAdapter(new ItemRecyclerViewAdapter(mListener));
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -107,6 +98,6 @@ public class ItemFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DammyContent.DummyItem item);
+        void onListFragmentInteraction(String item);
     }
 }

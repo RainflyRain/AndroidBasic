@@ -1,5 +1,7 @@
 package com.example.uiconponent.listview;
 
+import android.view.MenuItem;
+
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
@@ -11,8 +13,10 @@ import java.util.List;
  */
 public class ListActivityModel {
 
+    //  fragmentlist size对应
     private List<String> titleList;
     private List<Fragment> fragmentList;
+    private int size = 5;
 
     ListActivityModel(){
         initFragmentList();
@@ -26,7 +30,8 @@ public class ListActivityModel {
         if (fragmentList == null){
             fragmentList = new ArrayList<>();
         }
-        for (int i = 0; i < 8; i++) {
+        fragmentList.add(new TabLayoutFragment());
+        for (int i = 0; i < size; i++) {
             fragmentList.add(ItemFragment.newInstance(1));
         }
     }
@@ -38,9 +43,11 @@ public class ListActivityModel {
         if (titleList == null){
             titleList = new ArrayList<>();
         }
-        for (int i = 0; i < getFragments().size(); i++) {
-            titleList.add("title"+i);
-        }
+        titleList.add("首页");
+        titleList.add("热门");
+        titleList.add("推荐");
+        titleList.add("男生");
+        titleList.add("女生");
     }
 
     public List<Fragment> getFragments(){
@@ -58,4 +65,19 @@ public class ListActivityModel {
         return "";
     }
 
+    public int getIndex(MenuItem item){
+        switch (item.getTitle().toString()){
+            case "首页":
+                return 0;
+            case "咨询":
+                return 1;
+            case "我的":
+                return 2;
+        }
+        return 0;
+    }
+
+    public List<String> getTitleList(){
+        return titleList;
+    }
 }
