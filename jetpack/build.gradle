@@ -1,16 +1,24 @@
-apply plugin: 'com.android.library'
+//apply plugin: 'com.android.library'
+if (isLoadJetpack.toBoolean()){
+    apply plugin:'com.android.library'
+}else {
+    apply plugin:'com.android.application'
+}
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     buildToolsVersion rootProject.ext.android.buildToolsVersion
 
-
     defaultConfig {
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
+
+        if (!isLoadJetpack.toBoolean()){
+            applicationId "com.leathwear.jetpack"
+        }
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles 'consumer-rules.pro'
@@ -23,6 +31,9 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -36,4 +47,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     implementation 'androidx.work:work-runtime:2.5.0-beta02'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 }

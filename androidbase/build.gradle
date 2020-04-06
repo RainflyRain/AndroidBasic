@@ -5,20 +5,20 @@ if (isLoadAndroidBase.toBoolean()) {
 }
 
 android {
-//    signingConfigs {
-//        debug {
-//            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
-//            storePassword 'kb_2015'
-//            keyAlias = 'fly'
-//            keyPassword 'kb_2015'
-//        }
-//        release {
-//            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
-//            storePassword 'kb_2015'
-//            keyAlias = 'fly'
-//            keyPassword 'kb_2015'
-//        }
-//    }
+    signingConfigs {
+        debug {
+            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
+            storePassword 'kb_2015'
+            keyAlias = 'fly'
+            keyPassword 'kb_2015'
+        }
+        release {
+            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
+            storePassword 'kb_2015'
+            keyAlias = 'fly'
+            keyPassword 'kb_2015'
+        }
+    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
@@ -58,12 +58,11 @@ dependencies {
 
     implementation rootProject.ext.dependencies.libAndroidSupportV7
     implementation rootProject.ext.dependencies.libConstraintLayout
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     testImplementation rootProject.ext.dependencies.libjunit
     androidTestImplementation rootProject.ext.dependencies.libTestRunner
     androidTestImplementation rootProject.ext.dependencies.libTestEspresso
 
+    //局部引入
     implementation 'com.github.0xZhangKe:WebSocketDemo:3.1'
     implementation "org.java-websocket:Java-WebSocket:1.3.9"
     implementation 'com.lzy.net:okgo:3.0.4'

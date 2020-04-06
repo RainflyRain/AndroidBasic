@@ -56,8 +56,6 @@ public class FRefreshLayout extends ViewGroup {
 
         int count = getChildCount();
 
-        Log.i(TAG, "onFinishInflate: child count ="+count);
-
         if (count > 3){
             throw new RuntimeException("FRefreshLayout child number must < 3!");
         }
@@ -210,6 +208,7 @@ public class FRefreshLayout extends ViewGroup {
 //        mRefreshContent.setTranslationY(spinner);
         scrollTo(0,(int) -spinner);
     }
+
 
 
 
