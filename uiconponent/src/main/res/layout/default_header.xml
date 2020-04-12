@@ -34,7 +34,7 @@
             android:id="@+id/f_default_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pull Down To Refresh"
+            android:text="下拉刷新"
             android:textSize="15sp"
             />
         <TextView
@@ -42,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="12sp"
-            android:text="Last Updata Time"
+            android:text="上次刷新时间"
             />
 
     </LinearLayout>

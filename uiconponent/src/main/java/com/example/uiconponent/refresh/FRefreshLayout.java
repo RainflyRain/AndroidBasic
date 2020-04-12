@@ -8,22 +8,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.Scroller;
 
 /**
  * created by Fly on 2020/2/25
  */
+@SuppressWarnings("unused")
 public class FRefreshLayout extends ViewGroup {
 
     private static final String TAG = "FRefreshLayout";
 
     //<editor-fold desc="视图属性">
-    private FHeader mRefreshHeader;
     private int mHeaderHeight;
-    private int mTotalHeight;
-
     View mRefreshContent;
+    private FHeader mRefreshHeader;
     FFooter mRefreshFooter;
     //</editor-fold>
 
@@ -56,11 +54,16 @@ public class FRefreshLayout extends ViewGroup {
 
         int count = getChildCount();
 
-        if (count > 3){
+        if (count > 3 || count < 1){
             throw new RuntimeException("FRefreshLayout child number must < 3!");
         }
-
-        mRefreshHeader = (FHeader) getChildAt(0);
+        if (count == 1){
+            mRefreshHeader = new FDefaultHeader(getContext());
+            ((FDefaultHeader)mRefreshHeader).setLayoutParams(new LayoutParams(-1,-2));
+            this.addView((FDefaultHeader)mRefreshHeader,0);
+        }else {
+            mRefreshHeader = (FHeader) getChildAt(0);
+        }
         mRefreshContent =  getChildAt(1);
 //        mRefreshFooter = (FFooter) getChildAt(2);
     }
@@ -75,13 +78,13 @@ public class FRefreshLayout extends ViewGroup {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         //match_parent -1 wrap_content -2
         Log.i(TAG, "onMeasure: "+widthMode+","+widthSize+","+heightMode+","+heightSize);
-        if (widthMode == MeasureSpec.AT_MOST){//-2147483648
-
-        }else if (widthMode == MeasureSpec.EXACTLY){//1073741824
-
-        }else if (widthMode == MeasureSpec.UNSPECIFIED){//0
-
-        }
+//        if (widthMode == MeasureSpec.AT_MOST){//-2147483648
+//
+//        }else if (widthMode == MeasureSpec.EXACTLY){//1073741824
+//
+//        }else if (widthMode == MeasureSpec.UNSPECIFIED){//0
+//
+//        }
 
         if (mRefreshHeader != null){
             View headerView = mRefreshHeader.getView();
@@ -114,6 +117,7 @@ public class FRefreshLayout extends ViewGroup {
             int right = left+headerView.getMeasuredWidth();
             int bottom = top+mHeaderHeight;
             headerView.layout(left,top,right,bottom);
+            mMaxHeight = (int) ((bottom-top)*3*mScale);
         }
 
         if (mRefreshContent != null){
@@ -133,29 +137,43 @@ public class FRefreshLayout extends ViewGroup {
 
 
     //<editor-fold desc="滑动相关">
-    private float initX = 0;
-    private float initY = 0;
+    private static final int INVALID_POINTER = -1;
+    //滑动比例系数
+    private float mScale = 2.5f;
+    //滑动最大高度
+    private int mMaxHeight = 0;
+    //当前激活action的pointid
+    private int mActivePointerId = INVALID_POINTER;
+    //上一个激活action的起点
+    private int mLastMotionY;
+    private int mLastMotionX;
+    //上一个激活action的滑动距离
+    private float mOffset = 0;
+    //当前滑动比例
+    private float mProgress = 0;
+    //当前滑动距离
+    private int mTotalHeight;
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
-        Log.i(TAG, "onInterceptTouchEvent: input intercepter");
         switch (action){
             case MotionEvent.ACTION_DOWN:
-                initX  = ev.getX();
-                initY  = ev.getY();
-                Log.i(TAG, "onInterceptTouchEvent: action down");
+                mLastMotionY  = (int) ev.getY();
+                mLastMotionX = (int) ev.getX();
                 break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                return true;
             case MotionEvent.ACTION_MOVE:
                 if (mEnableNestedScroll){
                     return super.onInterceptTouchEvent(ev);
                 }
-                float curX = ev.getX();
                 float curY = ev.getY();
-                float deltaX = curX - initX;
-                float deltaY = curY - initY;
+                float curX = ev.getX();
+                float deltaY = curY - mLastMotionY;
+                float deltaX = curX - mLastMotionX;
                 if (Math.abs(deltaY) > mTouchSlop && Math.abs(deltaY)>Math.abs(deltaX)){
-                    Log.i(TAG, "onInterceptTouchEvent: action move");
+                    getParent().requestDisallowInterceptTouchEvent(true);
                     return true;
                 }
             case MotionEvent.ACTION_UP:
@@ -170,35 +188,65 @@ public class FRefreshLayout extends ViewGroup {
         int action = event.getAction();
         switch (action){
             case MotionEvent.ACTION_MOVE:
-                float curX = event.getX();
-                float curY = event.getY();
-                float deltaX = curX - initX;
-                float deltaY = curY - initY;
-                if (Math.abs(deltaY) > mTouchSlop && Math.abs(deltaY)> Math.abs(deltaX)){
-                    Log.i(TAG, "onTouchEvent: action move = "+deltaY);
-                    float spinner = (curY - initY)/2.5f;
-                    moveSpinner(spinner);
+                final int activePointerIndex = event.findPointerIndex(mActivePointerId);
+                if (activePointerIndex == -1) {
+                    break;
                 }
-                break;
+                int curY = (int) event.getY(activePointerIndex);
+                int deltaY = curY - mLastMotionY+ (int) mOffset;
+                int curOffset = deltaY-mTotalHeight;
+
+                if (Math.abs(deltaY) > mTouchSlop && mTotalHeight <= mMaxHeight){
+                    mTotalHeight = deltaY;
+                    moveSpinner(mTotalHeight/mScale);
+                    mProgress = mTotalHeight*1.0f/mMaxHeight;
+                    mRefreshHeader.onMoving(mProgress,curOffset,mMaxHeight);
+                    return true;
+                }else {
+                    return super.onTouchEvent(event);
+                }
             case MotionEvent.ACTION_UP:
                 releaseView();
                 Log.i(TAG, "onTouchEvent: action up");
-                break;
+                return true;
             case MotionEvent.ACTION_DOWN:
-                initX = event.getX();
-                initY = event.getY();
+                mLastMotionY = (int) event.getY();
+                mActivePointerId = event.getPointerId(0);
                 Log.i(TAG, "onTouchEvent: action down touchSlop = "+mTouchSlop);
-                break;
+                return true;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                final int index = event.getActionIndex();
+                mOffset = mTotalHeight;
+                mLastMotionY = (int) event.getY();
+                mActivePointerId = event.getPointerId(index);
+                Log.i(TAG, "onTouchEvent: ACTION_POINTER_DOWN");
+               return true;
+            case MotionEvent.ACTION_POINTER_UP:
+                onSecondaryPointerUp(event);
+                mLastMotionY = (int) event.getY(event.findPointerIndex(mActivePointerId));
+                Log.i(TAG, "onTouchEvent: ACTION_POINTER_UP");
+                return true;
         }
-        return true;
+        return super.onTouchEvent(event);
+    }
+
+    private void onSecondaryPointerUp(MotionEvent ev) {
+        final int pointerIndex = ev.getActionIndex();
+        final int pointerId = ev.getPointerId(pointerIndex);
+        if (pointerId == mActivePointerId) {
+            final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
+            mOffset = mTotalHeight;
+            mLastMotionY = (int) ev.getY(newPointerIndex);
+            mActivePointerId = ev.getPointerId(newPointerIndex);
+        }
     }
 
     private void smoothScrool(float desX,float desY){
-        float sX = getScaleX();
-        float sY = getScaleY();
+        float sX = getScrollX();
+        float sY = getScrollY();
         float deltaX = desX - sX;
         float deltaY = desY - sY;
-        mScroller.startScroll((int)sX,(int)sY,(int)deltaX,(int)deltaY);
+        mScroller.startScroll((int)sX,(int)sY,(int)deltaX,(int)deltaY,500);
         invalidate();
     }
 
@@ -210,13 +258,14 @@ public class FRefreshLayout extends ViewGroup {
     }
 
 
-
-
     private void releaseView(){
-//      smoothScrool(0,0);
+        mRefreshHeader.onRelease(mTotalHeight,mMaxHeight);
+        smoothScrool(0,0);
+        mTotalHeight = 0;
+        mOffset = 0;
+//        mTotalHeight = 0;
 //        mRefreshHeader.getView().setTranslationY(0);
 //        mRefreshContent.setTranslationY(0);
-        scrollTo(0,0);
     }
 
     @Override
@@ -224,8 +273,10 @@ public class FRefreshLayout extends ViewGroup {
         if (mScroller.computeScrollOffset()){
             View headerView = mRefreshHeader.getView();
             View contentView = mRefreshContent;
-            headerView.setTranslationY(mScroller.getCurrY());
-            contentView.setTranslationY(mScroller.getCurrY());
+//            headerView.setTranslationY(mScroller.getCurrY());
+//            contentView.setTranslationY(mScroller.getCurrY());
+            Log.i(TAG, "computeScroll: "+mScroller.getCurrY());
+            scrollTo(mScroller.getCurrX(),mScroller.getCurrY());
             postInvalidate();
         }
     }
@@ -249,21 +300,20 @@ public class FRefreshLayout extends ViewGroup {
         super.onNestedPreScroll(target, dx, dy, consumed);
     }
 
-    private float totalSpinner = 0;
     @Override
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
         Log.i(TAG, "onNestedScroll: "+dxConsumed+","+dyConsumed+","+dxUnconsumed+","+dyUnconsumed);
         super.onNestedScroll(target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed);
-        totalSpinner += dyUnconsumed;
-        moveSpinner(-totalSpinner/2.5f);
-
+        mTotalHeight += dyUnconsumed/mScale;
+        if (mTotalHeight <= mMaxHeight){
+            moveSpinner(-mTotalHeight);
+        }
     }
 
     @Override
     public void onStopNestedScroll(View child) {
         super.onStopNestedScroll(child);
         mEnableNestedScroll = false;
-        totalSpinner = 0;
         releaseView();
     }
 

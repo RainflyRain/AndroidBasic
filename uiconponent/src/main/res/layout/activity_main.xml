@@ -10,7 +10,6 @@
         android:id="@+id/spl_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         >
 
         <!--    menu    -->
@@ -18,36 +17,22 @@
             android:layout_width="300dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@android:color/holo_orange_light"
-            />
+            >
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onClickView"
+                />
+        </LinearLayout>
 
         <!--   content     -->
         <LinearLayout
+            android:id="@+id/llContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             >
-
-            <Button
-                android:id="@+id/btn_menu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:text="SlideMenu"
-                android:textAllCaps="false"
-                android:onClick="onClickView"
-                />
-
-            <Button
-                android:id="@+id/btn_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="20dp"
-                android:gravity="center"
-                android:text="ListActivity"
-                android:textAllCaps="false"
-                android:onClick="onClickView"
-                />
 
             <Button
                 android:id="@+id/btn_designer"
@@ -74,8 +59,5 @@
         </LinearLayout>
 
     </androidx.slidingpanelayout.widget.SlidingPaneLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
