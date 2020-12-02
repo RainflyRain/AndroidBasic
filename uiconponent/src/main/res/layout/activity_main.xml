@@ -49,6 +49,17 @@
                 android:onClick="onClickView"
                 />
 
+            <Button
+                android:id="@+id/btn_designer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center"
+                android:text="Designer"
+                android:textAllCaps="false"
+                android:onClick="onClickView"
+                />
+
         </LinearLayout>
 
     </androidx.slidingpanelayout.widget.SlidingPaneLayout>
