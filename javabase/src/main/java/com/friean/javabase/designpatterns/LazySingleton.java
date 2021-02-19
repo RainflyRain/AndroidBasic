@@ -13,7 +13,9 @@ public class LazySingleton {
     public static LazySingleton getInstance(){
         if (instance == null){
             synchronized (LazySingleton.class){//只判断一次锁，提高效率
-                instance = new LazySingleton();
+                if (instance == null){
+                    instance = new LazySingleton();
+                }
             }
         }
         return instance;
