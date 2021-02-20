@@ -16,6 +16,10 @@ android {
             }
         }
     }
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -47,4 +51,5 @@ dependencies {
     if (isLoadUiComponent.toBoolean()){
         implementation project(path:':uiconponent')
     }
+    implementation project(':Rxjava-RxLife')
 }

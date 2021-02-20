@@ -1,3 +1,5 @@
+include ':Okhttp-Clinet'
+include ':Rxjava-RxLife'
 include ':thirdcomponent'
 include ':app', ':buildSrc', ':uiconponent', ':jetpack'
 include ':androidbase'
