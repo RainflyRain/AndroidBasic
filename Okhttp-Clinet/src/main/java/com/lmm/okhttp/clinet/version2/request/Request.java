@@ -3,6 +3,7 @@ package com.lmm.okhttp.clinet.version2.request;
 import androidx.annotation.NonNull;
 
 import com.lmm.okhttp.clinet.version2.OkClient;
+import com.lmm.okhttp.clinet.version2.callback.AbsCallback;
 import com.lmm.okhttp.clinet.version2.params.RequestHeaders;
 import com.lmm.okhttp.clinet.version2.params.RequestParams;
 
@@ -20,7 +21,7 @@ import okhttp3.Response;
  * version: 1.0
  * 版权所有:雷漫网络科技
  */
-public abstract class Request{
+public abstract class Request<R extends Request>{
 
     protected String url;
     protected Object tag;
@@ -34,49 +35,49 @@ public abstract class Request{
         this.url = url;
     }
 
-    public Request url(@NonNull String url){
+    public R url(@NonNull String url){
         this.url = url;
-        return this;
+        return (R)this;
     }
 
-    public Request tag(Object tag){
+    public R tag(Object tag){
         this.tag = tag;
-        return this;
+        return (R)this;
     }
 
-    public Request readTimeOut(long readTimeOut){
+    public R readTimeOut(long readTimeOut){
         this.readTimeOut = readTimeOut;
-        return this;
+        return (R)this;
     }
 
-    public Request writeTimeOut(long writeTimeOut){
+    public R writeTimeOut(long writeTimeOut){
         this.writeTimeOut = writeTimeOut;
-        return this;
+        return (R)this;
     }
 
-    public Request connectTimeOut(long connectTimeOut){
+    public R connectTimeOut(long connectTimeOut){
         this.connectTimeOut = connectTimeOut;
-        return this;
+        return (R)this;
     }
 
-    public Request header(String key,String value){
+    public R header(String key,String value){
         this.headers.put(key,value);
-        return this;
+        return (R)this;
     }
 
-    public Request headers(RequestHeaders headers){
+    public R headers(RequestHeaders headers){
         this.headers.put(headers);
-        return this;
+        return (R)this;
     }
 
-    public Request params(RequestParams params){
+    public R params(RequestParams params){
         this.params.put(params);
-        return this;
+        return (R)this;
     }
 
-    public Request params(String key,String value){
+    public R params(String key,String value){
         this.params.put(key,value);
-        return this;
+        return (R)this;
     }
 
     /**
@@ -117,7 +118,41 @@ public abstract class Request{
      * 异步请求
      * @param callback callback
      */
-    public void execute(Callback callback){
-        generateCall().enqueue(callback);
+    public <T> void execute(AbsCallback<T> callback){
+        generateCall().enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Request.this.onFailure(call,e,callback);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    T t = callback.convertResponse(response);
+                    Request.this.onResponse(t,call,response,callback);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        });
     }
+
+    public <T> void onFailure(Call call,Exception e,AbsCallback<T> callback){
+        OkClient.getInstance().getDelivery().post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onFailure(call,e);
+            }
+        });
+    }
+
+    public <T> void onResponse(T t,Call call,Response response,AbsCallback<T> callback){
+        OkClient.getInstance().getDelivery().post(new Runnable() {
+            @Override
+            public void run() {
+                callback.onResponse(t,call,response);
+            }
+        });
+    }
+
 }

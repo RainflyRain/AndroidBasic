@@ -1,22 +1,8 @@
-/*
- * Copyright 2016 jeasonlzy(廖子尧)
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package com.lmm.okhttp.clinet.version2.httputils;
+package com.lmm.okhttp.clinet.version2.utils;
 
 import android.text.TextUtils;
 
+import com.lmm.okhttp.clinet.version2.params.RequestHeaders;
 import com.lmm.okhttp.clinet.version2.params.RequestParams;
 
 import java.io.File;
@@ -26,7 +12,9 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Map;
 
+import okhttp3.Headers;
 import okhttp3.MediaType;
+import okhttp3.Request;
 
 
 public class HttpUtils {
@@ -50,7 +38,22 @@ public class HttpUtils {
         return url;
     }
 
-
+    /** 通用的拼接请求头 */
+    public static Request.Builder appendHeaders(Request.Builder builder, RequestHeaders headers) {
+        if (headers.headersMap.isEmpty()) return builder;
+        Headers.Builder headerBuilder = new Headers.Builder();
+        try {
+            for (Map.Entry<String, String> entry : headers.headersMap.entrySet()) {
+                //对头信息进行 utf-8 编码,防止头信息传中文,这里暂时不编码,可能出现未知问题,如有需要自行编码
+//                String headerValue = URLEncoder.encode(entry.getValue(), "UTF-8");
+                headerBuilder.add(entry.getKey(), entry.getValue());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        builder.headers(headerBuilder.build());
+        return builder;
+    }
 
     /**
      * 通过 ‘？’ 和 ‘/’ 判断文件名
@@ -107,4 +110,5 @@ public class HttpUtils {
     public static void runOnUiThread(Runnable runnable) {
 //        OkGo.getInstance().getDelivery().post(runnable);
     }
+
 }
