@@ -37,6 +37,8 @@ public class OkClient {
 
     private Handler delivery;
 
+    public static long REFRESH_TIME = 300;                      //回调刷新时间（单位ms）
+
     private OkClient(){
         okBuilder = new OkHttpClient.Builder();
 
@@ -89,6 +91,10 @@ public class OkClient {
 
     public PostRequest post(String url){
         return new PostRequest(url);
+    }
+
+    public Application getContext(){
+        return context;
     }
 
     public Handler getDelivery(){

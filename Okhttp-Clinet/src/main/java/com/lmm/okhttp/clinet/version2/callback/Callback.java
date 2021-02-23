@@ -2,6 +2,8 @@ package com.lmm.okhttp.clinet.version2.callback;
 
 import androidx.annotation.NonNull;
 
+import com.lmm.okhttp.clinet.version2.model.Progress;
+
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -17,5 +19,11 @@ public interface Callback<T> {
     void onFailure(Call call, @NonNull Exception e);
 
     void onResponse(T t,Call call, Response response);
+
+    void onStart();
+
+    void uploadProgress();
+
+    void downloadProgress(Progress progress);
 
 }

@@ -3,6 +3,7 @@ package com.lmm.okhttp.clinet.version2.callback;
 import androidx.annotation.NonNull;
 
 import com.lmm.okhttp.clinet.version2.L;
+import com.lmm.okhttp.clinet.version2.model.Progress;
 
 import okhttp3.Call;
 import okhttp3.Response;
@@ -21,5 +22,20 @@ public abstract class AbsCallback<T> implements Callback<T>{
     @Override
     public void onFailure(Call call, @NonNull Exception e) {
         L.e(e.getMessage());
+    }
+
+    @Override
+    public void onStart() {
+
+    }
+
+    @Override
+    public void downloadProgress(Progress progress) {
+
+    }
+
+    @Override
+    public void uploadProgress() {
+
     }
 }
