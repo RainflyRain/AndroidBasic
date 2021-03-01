@@ -52,14 +52,13 @@ public abstract class FileCallback extends AbsCallback<File>{
         String url = response.request().url().toString();
         if (TextUtils.isEmpty(folder)) folder = OkClient.getInstance().getContext().getExternalCacheDir().getAbsolutePath() + DM_TARGET_FOLDER;
         if (TextUtils.isEmpty(fileName)) fileName = HttpUtils.getUrlFileName(url);
-        L.i("准备下载");
         File dir = new File(folder);
         if (!dir.exists()) dir.mkdirs();
         File file = new File(dir, fileName);
         if (file.exists()) file.delete();
 
         InputStream bodyStream = null;
-        byte[] buffer = new byte[1024];
+        byte[] buffer = new byte[2048];
         FileOutputStream fileOutputStream = null;
         try {
             ResponseBody body = response.body();
@@ -73,13 +72,13 @@ public abstract class FileCallback extends AbsCallback<File>{
             progress.url = url;
             progress.tag = url;
             progress.filePath = file.getAbsolutePath();
-            L.i("开始下载");
             int len;
             fileOutputStream = new FileOutputStream(file);
             while ((len = bodyStream.read(buffer)) != -1){
-                L.i("正在下载 ="+len);
                 fileOutputStream.write(buffer,0,len);
-                onProgress(Progress.computeProgress(progress,len));
+                Progress.computeProgress(progress, len, progress1 -> {
+                    onProgress(progress1);
+                });
             }
             response.close();
             return file;

@@ -20,13 +20,18 @@ public abstract class AbsCallback<T> implements Callback<T>{
     public abstract T convertResponse(Response response) throws Throwable;
 
     @Override
-    public void onFailure(Call call, @NonNull Exception e) {
-        L.e(e.getMessage());
+    public void onStart() {
+
     }
 
     @Override
-    public void onStart() {
+    public void onSucess() {
 
+    }
+
+    @Override
+    public void onFailure(Call call, @NonNull Exception e) {
+        L.e(e.getMessage());
     }
 
     @Override

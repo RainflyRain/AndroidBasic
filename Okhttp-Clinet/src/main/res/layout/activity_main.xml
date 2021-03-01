@@ -8,4 +8,49 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        />
+
+
+    <Button
+        android:id="@+id/btnGetString"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:onClick="onViewClicked"
+        android:text="GetString"
+        />
+
+    <Button
+        android:id="@+id/btnGetJson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:onClick="onViewClicked"
+        android:text="GetJavaBean"
+        />
+
+    <Button
+        android:id="@+id/btnPost"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:onClick="onViewClicked"
+        android:text="PostForm"
+        />
+
+
+    <Button
+        android:id="@+id/btnDonwloadFile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:onClick="onViewClicked"
+        android:text="DonwloadFile"
+        />
+
 </LinearLayout>

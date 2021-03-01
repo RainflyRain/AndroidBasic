@@ -9,6 +9,7 @@
 
     <application android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:requestLegacyExternalStorage="true"
+        android:networkSecurityConfig="@xml/net_config"
         >
         <activity android:name=".MainActivity">
             <intent-filter>

@@ -33,21 +33,31 @@ public class Progress {
         speedBuffer = new ArrayList<>();
     }
 
-    public static Progress computeProgress(Progress progress, long writeSize){
-        progress.currentSize += writeSize;
-        progress.tempSize +=writeSize;
+    public interface Action {
+        void call(Progress progress);
+    }
+
+    public static Progress computeProgress(Progress progress, long writeSize, Action action){
+
+        Progress tempProgress = progress;
+
+        tempProgress.currentSize += writeSize;
+        tempProgress.tempSize +=writeSize;
 
         long currentTime = SystemClock.elapsedRealtime();
-        boolean isRefreshTime = (currentTime -progress.lastRefreshTime) >= OkClient.REFRESH_TIME;
-        if (isRefreshTime || progress.currentSize == progress.totalSize){
-            long diffTime = currentTime - progress.lastRefreshTime;
+        boolean isRefreshTime = (currentTime -tempProgress.lastRefreshTime) >= OkClient.REFRESH_TIME;
+        if (isRefreshTime || tempProgress.currentSize == tempProgress.totalSize){
+            long diffTime = currentTime - tempProgress.lastRefreshTime;
             if (diffTime == 0) diffTime = 1;
-            progress.percent = progress.currentSize * 1.0f / progress.totalSize;
-            progress.speed = progress.bufferSpeed(progress.tempSize*1000 / diffTime);
-            progress.lastRefreshTime = currentTime;
-            progress.tempSize = 0;
+            tempProgress.percent = tempProgress.currentSize * 1.0f / tempProgress.totalSize;
+            tempProgress.speed = tempProgress.bufferSpeed(tempProgress.tempSize*1000 / diffTime);
+            tempProgress.lastRefreshTime = currentTime;
+            tempProgress.tempSize = 0;
+            if (action != null){
+                action.call(tempProgress);
+            }
         }
-        return progress;
+        return tempProgress;
     }
 
     /** 平滑网速，避免抖动过大 */
