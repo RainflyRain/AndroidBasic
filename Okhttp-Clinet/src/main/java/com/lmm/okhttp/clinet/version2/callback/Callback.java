@@ -16,10 +16,6 @@ import okhttp3.Response;
  */
 public interface Callback<T> {
 
-    void onStart();
-
-    void onSucess();
-
     void onFailure(Call call, @NonNull Exception e);
 
     void onResponse(T t,Call call, Response response);

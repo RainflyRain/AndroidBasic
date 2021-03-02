@@ -2,6 +2,7 @@ package com.lmm.okhttp.clinet.version2.utils;
 
 import android.text.TextUtils;
 
+import com.lmm.okhttp.clinet.version2.OkClient;
 import com.lmm.okhttp.clinet.version2.params.RequestHeaders;
 import com.lmm.okhttp.clinet.version2.params.RequestParams;
 
@@ -108,7 +109,7 @@ public class HttpUtils {
     }
 
     public static void runOnUiThread(Runnable runnable) {
-//        OkGo.getInstance().getDelivery().post(runnable);
+        OkClient.getInstance().getDelivery().post(runnable);
     }
 
 }

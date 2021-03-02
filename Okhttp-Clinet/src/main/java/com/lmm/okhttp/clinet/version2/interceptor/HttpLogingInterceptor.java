@@ -188,9 +188,11 @@ public class HttpLogingInterceptor implements Interceptor {
                     charset = contentType.charset(UTF8);
                 }
 
-                if (responseBody.contentLength() != 0) {
+                if (responseBody.contentLength() != 0 && isPlaintext(contentType)) {
                     logger.log("");
                     logger.log(buffer.clone().readString(charset));
+                }else {
+                    logger.log("\tbody: maybe [binary body], omitted!");
                 }
 
                 endMessage += " (" + buffer.size() + "-byte body)";
@@ -209,6 +211,20 @@ public class HttpLogingInterceptor implements Interceptor {
         String path = url.encodedPath();
         String query = url.encodedQuery();
         return query != null ? (path + '?' + query) : path;
+    }
+
+    private static boolean isPlaintext(MediaType mediaType) {
+        if (mediaType == null) return false;
+        if (mediaType.type() != null && mediaType.type().equals("text")) {
+            return true;
+        }
+        String subtype = mediaType.subtype();
+        if (subtype != null) {
+            subtype = subtype.toLowerCase();
+            if (subtype.contains("x-www-form-urlencoded") || subtype.contains("json") || subtype.contains("xml") || subtype.contains("html")) //
+                return true;
+        }
+        return false;
     }
 
 }

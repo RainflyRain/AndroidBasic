@@ -21,6 +21,8 @@ import com.lmm.okhttp.clinet.version2.callback.StringCallback;
 import com.lmm.okhttp.clinet.version2.model.Progress;
 import com.lmm.okhttp.clinet.version2.request.PostRequest;
 
+import java.io.File;
+
 import okhttp3.Call;
 import okhttp3.Response;
 
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void postForm(){
         OkClient.getInstance()
-                .post("")
+                .post("http://www.baidu.com")
                 .params("","")
                 .execute(new StringCallback() {
                     @Override
@@ -115,10 +117,9 @@ public class MainActivity extends AppCompatActivity {
                 .execute(new FileCallback() {
 
                     @Override
-                    public void onSucess() {
-                        super.onSucess();
-                        Log.i(TAG, "onSucess: ");
-                        tvResult.append("\n downLoadFile successful");
+                    public void onResponse(File file, Call call, Response response) {
+                        super.onResponse(file, call, response);
+                        Log.i(TAG, "onResponse: "+file.getAbsolutePath());
                     }
 
                     @Override
@@ -130,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void downloadProgress(Progress progress) {
                         super.downloadProgress(progress);
-                        Log.i(TAG, "downloadProgress: "+progress.speed+" progress = "+progress.percent);
+                        Log.i(TAG, "downloadProgress: speed = "+progress.convertSpeed +" , percent = "+progress.convertPercent);
                     }
 
                 });

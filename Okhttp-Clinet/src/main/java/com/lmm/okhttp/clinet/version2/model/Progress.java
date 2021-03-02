@@ -3,6 +3,7 @@ package com.lmm.okhttp.clinet.version2.model;
 import android.os.SystemClock;
 
 import com.lmm.okhttp.clinet.version2.OkClient;
+import com.lmm.okhttp.clinet.version2.utils.FormateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class Progress {
 
     public float percent;
     public long speed;
+    public int convertPercent;
+    public String convertSpeed;
 
     private transient long tempSize;
     private transient long lastRefreshTime;
@@ -51,6 +54,8 @@ public class Progress {
             if (diffTime == 0) diffTime = 1;
             tempProgress.percent = tempProgress.currentSize * 1.0f / tempProgress.totalSize;
             tempProgress.speed = tempProgress.bufferSpeed(tempProgress.tempSize*1000 / diffTime);
+            tempProgress.convertSpeed = FormateUtils.convertSpeed(tempProgress.speed);
+            tempProgress.convertPercent = FormateUtils.converPercent(tempProgress.percent);
             tempProgress.lastRefreshTime = currentTime;
             tempProgress.tempSize = 0;
             if (action != null){
@@ -81,6 +86,13 @@ public class Progress {
                 ", url='" + url + '\'' +
                 ", tag=" + tag +
                 ", filePath='" + filePath + '\'' +
+                ", percent=" + percent +
+                ", speed=" + speed +
+                ", convertPercent=" + convertPercent +
+                ", convertSpeed='" + convertSpeed + '\'' +
+                ", tempSize=" + tempSize +
+                ", lastRefreshTime=" + lastRefreshTime +
+                ", speedBuffer=" + speedBuffer +
                 '}';
     }
 }
