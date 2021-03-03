@@ -20,7 +20,7 @@ public interface Callback<T> {
 
     void onResponse(T t,Call call, Response response);
 
-    void uploadProgress();
+    void uploadProgress(Progress progress);
 
     void downloadProgress(Progress progress);
 

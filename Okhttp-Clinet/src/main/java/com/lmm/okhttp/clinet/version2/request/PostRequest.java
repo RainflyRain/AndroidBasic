@@ -1,6 +1,9 @@
 package com.lmm.okhttp.clinet.version2.request;
 
+import com.lmm.okhttp.clinet.version2.params.RequestParams;
 import com.lmm.okhttp.clinet.version2.utils.HttpUtils;
+
+import java.util.Map;
 
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -52,9 +55,18 @@ public class PostRequest extends Request<PostRequest>{
                 requestBody = bodyBuilder.build();
             }else {
                 //表单提交有文件
-                MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder();
-                for (String key : params.urlParamsMap.keySet()) {
-                    multipartBodyBuilder.addFormDataPart(key, params.urlParamsMap.get(key));
+                MultipartBody.Builder multipartBodyBuilder = new MultipartBody.Builder().setType(MultipartBody.FORM);
+                //拼接键值对
+                if (!params.urlParamsMap.isEmpty()) {
+                    for (String key : params.urlParamsMap.keySet()) {
+                        multipartBodyBuilder.addFormDataPart(key, params.urlParamsMap.get(key));
+                    }
+                }
+                //拼接文件
+                for (Map.Entry<String, RequestParams.FileWrapper> entry : params.fileParamsMap.entrySet()) {
+                    String contentType = entry.getValue().contentType;
+                    RequestBody fileBody = RequestBody.create(MediaType.parse(contentType), entry.getValue().file);
+                    multipartBodyBuilder.addFormDataPart(entry.getKey(), entry.getValue().fileName, fileBody);
                 }
                 requestBody = multipartBodyBuilder.build();
             }

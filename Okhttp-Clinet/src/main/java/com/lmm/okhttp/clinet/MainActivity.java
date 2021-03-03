@@ -107,6 +107,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(String s, Call call, Response response) {
                         tvResult.append("\n getString = "+s);
                     }
+
+                    @Override
+                    public void onFailure(Call call, @NonNull Exception e) {
+                        super.onFailure(call, e);
+                    }
                 });
     }
 
@@ -137,6 +142,33 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    private void uploadFile(File file){
+        OkClient.getInstance()
+                .post("https://10.10.12.60:5000/upload")
+                .params("hello","value")
+                .params("file",file)
+                .execute(new JsonCallback<String>() {
+
+                    @Override
+                    public void uploadProgress(Progress progress) {
+                        super.uploadProgress(progress);
+                        Log.i(TAG, "uploadProgress: progress = "+progress.convertPercent+","+progress.currentSize+", "+progress.totalSize);
+                    }
+
+                    @Override
+                    public void onResponse(String s, Call call, Response response) {
+                        Log.i(TAG, "onResponse: "+s);
+                    }
+
+                    @Override
+                    public void onFailure(Call call, @NonNull Exception e) {
+                        super.onFailure(call, e);
+                        Log.i(TAG, "onFailure: "+e.getMessage());
+                    }
+                });
+
+    }
+
     public void onViewClicked(View view) {
         switch (view.getId()){
             case R.id.btnGetString:
@@ -154,6 +186,10 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btnPost:
                 postForm();
+                break;
+
+            case R.id.btnUploadFile:
+                uploadFile(new File("/storage/emulated/0/Android/data/com.lmm.okhttp.clinet/cache/download/121_250886.zip"));
                 break;
         }
     }

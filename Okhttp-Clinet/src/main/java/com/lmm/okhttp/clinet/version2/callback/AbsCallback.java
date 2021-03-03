@@ -30,7 +30,7 @@ public abstract class AbsCallback<T> implements Callback<T>{
     }
 
     @Override
-    public void uploadProgress() {
+    public void uploadProgress(Progress progress) {
 
     }
 }

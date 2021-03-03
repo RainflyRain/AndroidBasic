@@ -1,12 +1,16 @@
 package com.lmm.okhttp.clinet.version2.request;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.lmm.okhttp.clinet.version2.OkClient;
 import com.lmm.okhttp.clinet.version2.callback.AbsCallback;
+import com.lmm.okhttp.clinet.version2.model.Progress;
 import com.lmm.okhttp.clinet.version2.params.RequestHeaders;
 import com.lmm.okhttp.clinet.version2.params.RequestParams;
 
+import java.io.File;
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -80,6 +84,16 @@ public abstract class Request<R extends Request>{
         return (R)this;
     }
 
+    public R params(String key, File file){
+        this.params.put(key,file);
+        return (R)this;
+    }
+
+    public R params(String key, File file,String fileName){
+        this.params.put(key,file,fileName);
+        return (R)this;
+    }
+
     /**
      * 根据具体的请求方式和参数，生成不同的RequestBody
      * @return RequestBody
@@ -96,11 +110,11 @@ public abstract class Request<R extends Request>{
     /**
      * 创建okhttp3.call对象
      */
-    public Call generateCall() {
+    public <T> Call generateCall(AbsCallback<T> callback) {
         //构建body
         RequestBody requestBody = generateRequestBody();
         //构建request
-        okhttp3.Request request = generateRequest(requestBody);
+        okhttp3.Request request = generateRequest(new CountingRequestBody<>(requestBody, callback));
         //构建call
         return OkClient.getInstance().getOkHttpClient().newCall(request);
     }
@@ -111,7 +125,7 @@ public abstract class Request<R extends Request>{
      * @throws IOException exception
      */
     public Response execute() throws IOException {
-        return generateCall().execute();
+        return generateCall(null).execute();
     }
 
     /**
@@ -119,7 +133,8 @@ public abstract class Request<R extends Request>{
      * @param callback callback
      */
     public <T> void execute(AbsCallback<T> callback){
-        generateCall().enqueue(new Callback() {
+
+        generateCall(callback).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Request.this.onFailure(call,e,callback);
