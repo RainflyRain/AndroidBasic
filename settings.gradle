@@ -1,4 +1,4 @@
-include ':Okhttp-Clinet'
+include ':Okhttp-Client'
 include ':Rxjava-RxLife'
 include ':thirdcomponent'
 include ':app', ':buildSrc', ':uiconponent', ':jetpack'

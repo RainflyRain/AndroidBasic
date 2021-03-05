@@ -17,7 +17,7 @@ import okhttp3.RequestBody;
  * version: 1.0
  * 版权所有:雷漫网络科技
  */
-public class PostRequest extends Request<PostRequest>{
+public class PostRequest<T> extends Request<T,PostRequest<T>>{
 
     public static final MediaType MEDIA_TYPE_PLAIN = MediaType.parse("text/plain;charset=utf-8");
     public static final MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json;charset=utf-8");
@@ -30,12 +30,12 @@ public class PostRequest extends Request<PostRequest>{
         super(url);
     }
 
-    public PostRequest json(String json){
+    public PostRequest<T> json(String json){
         jsonContent = json;
         return this;
     }
 
-    public PostRequest mediaType(MediaType mediaType){
+    public PostRequest<T> mediaType(MediaType mediaType){
         this.mediaType = mediaType;
         return this;
     }

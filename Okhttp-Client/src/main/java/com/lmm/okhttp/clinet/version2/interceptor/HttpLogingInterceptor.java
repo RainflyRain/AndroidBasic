@@ -143,7 +143,7 @@ public class HttpLogingInterceptor implements Interceptor {
             }
 
             String endMessage = "--> END " + request.method();
-            if (logBody && hasRequestBody) {
+            if (logBody && hasRequestBody && isPlaintext(requestBody.contentType())) {
                 Buffer buffer = new Buffer();
                 requestBody.writeTo(buffer);
 
@@ -157,6 +157,8 @@ public class HttpLogingInterceptor implements Interceptor {
                 logger.log(buffer.readString(charset));
 
                 endMessage += " (" + requestBody.contentLength() + "-byte body)";
+            }else {
+                logger.log("\tbody: maybe [binary body], omitted!");
             }
             logger.log(endMessage);
         }

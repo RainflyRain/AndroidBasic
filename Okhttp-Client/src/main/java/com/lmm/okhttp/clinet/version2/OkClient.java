@@ -85,12 +85,12 @@ public class OkClient {
         return this;
     }
 
-    public GetRequest get(String url){
-        return new GetRequest(url);
+    public static  <T> GetRequest<T> get(String url){
+        return new GetRequest<>(url);
     }
 
-    public PostRequest post(String url){
-        return new PostRequest(url);
+    public static  <T> PostRequest<T> post(String url){
+        return new PostRequest<>(url);
     }
 
     public Application getContext(){

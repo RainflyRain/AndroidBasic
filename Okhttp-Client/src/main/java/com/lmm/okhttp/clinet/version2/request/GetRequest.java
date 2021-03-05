@@ -11,7 +11,7 @@ import okhttp3.RequestBody;
  * version: 1.0
  * 版权所有:雷漫网络科技
  */
-public class GetRequest extends Request<GetRequest>{
+public class GetRequest<T> extends Request<T,GetRequest<T>>{
 
     public GetRequest(String url) {
         super(url);

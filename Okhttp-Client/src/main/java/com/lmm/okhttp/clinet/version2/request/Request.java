@@ -1,12 +1,9 @@
 package com.lmm.okhttp.clinet.version2.request;
 
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
 import com.lmm.okhttp.clinet.version2.OkClient;
 import com.lmm.okhttp.clinet.version2.callback.AbsCallback;
-import com.lmm.okhttp.clinet.version2.model.Progress;
 import com.lmm.okhttp.clinet.version2.params.RequestHeaders;
 import com.lmm.okhttp.clinet.version2.params.RequestParams;
 
@@ -25,7 +22,7 @@ import okhttp3.Response;
  * version: 1.0
  * 版权所有:雷漫网络科技
  */
-public abstract class Request<R extends Request>{
+public abstract class Request<T,R extends Request>{
 
     protected String url;
     protected Object tag;
@@ -34,6 +31,7 @@ public abstract class Request<R extends Request>{
     protected long connectTimeOut;
     protected RequestParams params = new RequestParams();
     protected RequestHeaders headers = new RequestHeaders();
+    protected AbsCallback<T> callback;
 
     public Request(String url) {
         this.url = url;
@@ -110,11 +108,11 @@ public abstract class Request<R extends Request>{
     /**
      * 创建okhttp3.call对象
      */
-    public <T> Call generateCall(AbsCallback<T> callback) {
+    public Call generateCall() {
         //构建body
         RequestBody requestBody = generateRequestBody();
         //构建request
-        okhttp3.Request request = generateRequest(new CountingRequestBody<>(requestBody, callback));
+        okhttp3.Request request = generateRequest(new ProgressRequestBody<>(requestBody, callback));
         //构建call
         return OkClient.getInstance().getOkHttpClient().newCall(request);
     }
@@ -125,16 +123,17 @@ public abstract class Request<R extends Request>{
      * @throws IOException exception
      */
     public Response execute() throws IOException {
-        return generateCall(null).execute();
+        return generateCall().execute();
     }
 
     /**
      * 异步请求
      * @param callback callback
      */
-    public <T> void execute(AbsCallback<T> callback){
+    public void execute(AbsCallback<T> callback){
 
-        generateCall(callback).enqueue(new Callback() {
+        this.callback = callback;
+        generateCall().enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Request.this.onFailure(call,e,callback);
@@ -152,7 +151,7 @@ public abstract class Request<R extends Request>{
         });
     }
 
-    public <T> void onFailure(Call call,Exception e,AbsCallback<T> callback){
+    public void onFailure(Call call,Exception e,AbsCallback<T> callback){
         OkClient.getInstance().getDelivery().post(new Runnable() {
             @Override
             public void run() {
@@ -161,7 +160,7 @@ public abstract class Request<R extends Request>{
         });
     }
 
-    public <T> void onResponse(T t,Call call,Response response,AbsCallback<T> callback){
+    public void onResponse(T t,Call call,Response response,AbsCallback<T> callback){
         OkClient.getInstance().getDelivery().post(new Runnable() {
             @Override
             public void run() {

@@ -68,9 +68,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postForm(){
-        OkClient.getInstance()
-                .post("http://www.baidu.com")
-                .params("","")
+        OkClient.<String>post("https://10.10.12.60:5000/login?name=fei")
+                .params("APP-SIGN","hello")
                 .execute(new StringCallback() {
                     @Override
                     public void onResponse(String s, Call call, Response response) {
@@ -80,8 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getJavaBean() {
-        OkClient.getInstance()
-                .get("https://jsonplaceholder.typicode.com/todos/1")
+        OkClient.<TestBean>get("https://jsonplaceholder.typicode.com/todos/1")
                 .header("hello","header1")
                 .params("hello2","param1")
                 .tag(this)
@@ -95,8 +93,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getString() {
-        OkClient.getInstance()
-                .post("https://10.10.12.60:5000/refresh")
+        OkClient.<String>post("https://10.10.12.60:5000/refresh")
                 .header("header1","header1_value")
                 .params("param1","param1_value")
                 .json("{'hello3','hello3_value'}")
@@ -116,8 +113,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadFile() {
-        OkClient.getInstance()
-                .get("http://s3.ap-east-1.amazonaws.com/rayman-comic/ebook/zip/2020-11-23/121_250886.zip")
+        OkClient.<File>get("http://s3.ap-east-1.amazonaws.com/rayman-comic/ebook/zip/2020-11-23/121_250886.zip")
                 .tag("")
                 .execute(new FileCallback() {
 
@@ -143,8 +139,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uploadFile(File file){
-        OkClient.getInstance()
-                .post("https://10.10.12.60:5000/upload")
+        OkClient.<String>post("https://10.10.12.60:5000/upload")
                 .params("hello","value")
                 .params("file",file)
                 .execute(new JsonCallback<String>() {
@@ -152,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void uploadProgress(Progress progress) {
                         super.uploadProgress(progress);
-                        Log.i(TAG, "uploadProgress: progress = "+progress.convertPercent+","+progress.currentSize+", "+progress.totalSize);
+                        Log.i(TAG, "uploadProgress: progress = "+progress.convertPercent+" ,size = "+progress.currentSize+", apeed ="+progress.convertSpeed);
                     }
 
                     @Override
