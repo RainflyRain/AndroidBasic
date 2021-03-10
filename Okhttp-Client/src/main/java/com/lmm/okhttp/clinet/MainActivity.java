@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.lmm.okhttp.clinet.version2.OkClient;
+import com.lmm.okhttp.clinet.version2.OkNet;
 import com.lmm.okhttp.clinet.version2.TestBean;
 import com.lmm.okhttp.clinet.version2.callback.FileCallback;
 import com.lmm.okhttp.clinet.version2.callback.JsonCallback;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         tvResult = findViewById(R.id.tvResult);
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         //初始化
-        OkClient.getInstance()
+        OkNet.getInstance()
                 .init(getApplication());
 
     }
@@ -64,11 +64,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        OkClient.getInstance().canCelTag(this);
+        OkNet.getInstance().canCelTag(this);
     }
 
     private void postForm(){
-        OkClient.<String>post("https://10.10.12.60:5000/login?name=fei")
+        OkNet.<String>post("https://10.10.12.60:5000/login?name=fei")
                 .params("APP-SIGN","hello")
                 .execute(new StringCallback() {
                     @Override
@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getJavaBean() {
-        OkClient.<TestBean>get("https://jsonplaceholder.typicode.com/todos/1")
+        OkNet.<TestBean>get("https://jsonplaceholder.typicode.com/todos/1")
                 .header("hello","header1")
                 .params("hello2","param1")
                 .tag(this)
@@ -93,11 +93,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getString() {
-        OkClient.<String>post("https://10.10.12.60:5000/refresh")
+        OkNet.<String>post("https://10.10.12.60:5000/getJson")
                 .header("header1","header1_value")
                 .params("param1","param1_value")
-                .json("{'hello3','hello3_value'}")
-                .mediaType(PostRequest.MEDIA_TYPE_JSON)
+                .json("{'hello3','hello3_value'}",PostRequest.MEDIA_TYPE_JSON)
                 .tag(this)
                 .execute(new StringCallback() {
                     @Override
@@ -113,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadFile() {
-        OkClient.<File>get("http://s3.ap-east-1.amazonaws.com/rayman-comic/ebook/zip/2020-11-23/121_250886.zip")
+        OkNet.<File>get("http://211.93.249.67:10016/20210309/cjb/Windows%2010%20x64.iso")
                 .tag("")
                 .execute(new FileCallback() {
 
@@ -139,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void uploadFile(File file){
-        OkClient.<String>post("https://10.10.12.60:5000/upload")
+        OkNet.<String>post("https://10.10.12.60:5000/upload")
                 .params("hello","value")
                 .params("file",file)
                 .execute(new JsonCallback<String>() {
@@ -187,5 +186,8 @@ public class MainActivity extends AppCompatActivity {
                 uploadFile(new File("/storage/emulated/0/Android/data/com.lmm.okhttp.clinet/cache/download/121_250886.zip"));
                 break;
         }
+    }
+
+    private void test(){
     }
 }

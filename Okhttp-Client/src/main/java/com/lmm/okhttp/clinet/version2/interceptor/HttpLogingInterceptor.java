@@ -178,17 +178,17 @@ public class HttpLogingInterceptor implements Interceptor {
                 logger.log(headers.name(i) + ": " + headers.value(i));
             }
 
+            Charset charset = UTF8;
+            MediaType contentType = responseBody.contentType();
+            if (contentType != null) {
+                charset = contentType.charset(UTF8);
+            }
+
             String endMessage = "<-- END HTTP";
-            if (logBody) {
+            if (logBody && isPlaintext(contentType)) {
                 BufferedSource source = responseBody.source();
                 source.request(Long.MAX_VALUE); // Buffer the entire body.
                 Buffer buffer = source.buffer();
-
-                Charset charset = UTF8;
-                MediaType contentType = responseBody.contentType();
-                if (contentType != null) {
-                    charset = contentType.charset(UTF8);
-                }
 
                 if (responseBody.contentLength() != 0 && isPlaintext(contentType)) {
                     logger.log("");

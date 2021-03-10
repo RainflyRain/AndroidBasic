@@ -1,8 +1,9 @@
 package com.lmm.okhttp.clinet.version2.model;
 
 import android.os.SystemClock;
+import android.util.Log;
 
-import com.lmm.okhttp.clinet.version2.OkClient;
+import com.lmm.okhttp.clinet.version2.OkNet;
 import com.lmm.okhttp.clinet.version2.utils.FormateUtils;
 
 import java.util.ArrayList;
@@ -46,10 +47,12 @@ public class Progress {
 
         tempProgress.currentSize += writeSize;
         tempProgress.tempSize +=writeSize;
-
         long currentTime = SystemClock.elapsedRealtime();
-        boolean isRefreshTime = (currentTime -tempProgress.lastRefreshTime) >= OkClient.REFRESH_TIME;
+        Log.i("TAG Fei", "computeProgress: "+System.currentTimeMillis());
+        Log.i("TAG Fei", "convertResponse: progress lastTime ="+tempProgress.lastRefreshTime+" currenttime ="+currentTime +" diffTime = "+(currentTime-tempProgress.lastRefreshTime));
+        boolean isRefreshTime = (currentTime -tempProgress.lastRefreshTime) >= OkNet.REFRESH_TIME;
         if (isRefreshTime || tempProgress.currentSize == tempProgress.totalSize){
+            Log.i("TAG Fei", "convertResponse: progress2");
             long diffTime = currentTime - tempProgress.lastRefreshTime;
             if (diffTime == 0) diffTime = 1;
             tempProgress.percent = tempProgress.currentSize * 1.0f / tempProgress.totalSize;

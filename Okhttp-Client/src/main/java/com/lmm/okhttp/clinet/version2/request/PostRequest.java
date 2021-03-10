@@ -30,8 +30,9 @@ public class PostRequest<T> extends Request<T,PostRequest<T>>{
         super(url);
     }
 
-    public PostRequest<T> json(String json){
+    public PostRequest<T> json(String json,MediaType mediaType){
         jsonContent = json;
+        this.mediaType = mediaType;
         return this;
     }
 
@@ -44,7 +45,7 @@ public class PostRequest<T> extends Request<T,PostRequest<T>>{
     public RequestBody generateRequestBody() {
         RequestBody requestBody;
         if (jsonContent != null && mediaType != null){
-            requestBody = RequestBody.create(mediaType,jsonContent);
+            requestBody = RequestBody.create(jsonContent,mediaType);
         }else {
             if (params.fileParamsMap.isEmpty()){
                 //表单提交没有文件

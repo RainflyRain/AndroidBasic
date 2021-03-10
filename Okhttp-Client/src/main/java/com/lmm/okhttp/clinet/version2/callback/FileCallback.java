@@ -2,8 +2,7 @@ package com.lmm.okhttp.clinet.version2.callback;
 
 import android.text.TextUtils;
 
-import com.lmm.okhttp.clinet.version2.L;
-import com.lmm.okhttp.clinet.version2.OkClient;
+import com.lmm.okhttp.clinet.version2.OkNet;
 import com.lmm.okhttp.clinet.version2.model.Progress;
 import com.lmm.okhttp.clinet.version2.utils.HttpUtils;
 import com.lmm.okhttp.clinet.version2.utils.IOUtils;
@@ -50,7 +49,7 @@ public abstract class FileCallback extends AbsCallback<File>{
     @Override
     public File convertResponse(Response response) throws Throwable {
         String url = response.request().url().toString();
-        if (TextUtils.isEmpty(folder)) folder = OkClient.getInstance().getContext().getExternalCacheDir().getAbsolutePath() + DM_TARGET_FOLDER;
+        if (TextUtils.isEmpty(folder)) folder = OkNet.getInstance().getContext().getExternalCacheDir().getAbsolutePath() + DM_TARGET_FOLDER;
         if (TextUtils.isEmpty(fileName)) fileName = HttpUtils.getUrlFileName(url);
         File dir = new File(folder);
         if (!dir.exists()) dir.mkdirs();
@@ -80,6 +79,7 @@ public abstract class FileCallback extends AbsCallback<File>{
                     onProgress(progress1);
                 });
             }
+            fileOutputStream.flush();
             response.close();
             return file;
         }finally {
@@ -89,6 +89,6 @@ public abstract class FileCallback extends AbsCallback<File>{
     }
 
     private void onProgress(Progress progress){
-        OkClient.getInstance().getDelivery().post(() -> downloadProgress(progress));
+        OkNet.getInstance().getDelivery().post(() -> downloadProgress(progress));
     }
 }

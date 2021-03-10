@@ -8,6 +8,7 @@ import com.lmm.okhttp.clinet.version2.https.HttpsUtils;
 import com.lmm.okhttp.clinet.version2.interceptor.HttpLogingInterceptor;
 import com.lmm.okhttp.clinet.version2.request.GetRequest;
 import com.lmm.okhttp.clinet.version2.request.PostRequest;
+import com.lmm.okhttp.clinet.version2.request.PutRequest;
 import com.lmm.okhttp.clinet.version2.utils.HttpLogger;
 
 import java.util.concurrent.TimeUnit;
@@ -23,11 +24,11 @@ import okhttp3.OkHttpClient;
  * version: 1.0
  * 版权所有:雷漫网络科技
  */
-public class OkClient {
+public class OkNet {
 
     public static final long DEFAULT_MILLISECONDS = 30000;      //默认的超时时间
 
-    private static OkClient mInstance;
+    private static OkNet mInstance;
 
     private OkHttpClient.Builder okBuilder;
 
@@ -39,7 +40,7 @@ public class OkClient {
 
     public static long REFRESH_TIME = 300;                      //回调刷新时间（单位ms）
 
-    private OkClient(){
+    private OkNet(){
         okBuilder = new OkHttpClient.Builder();
 
         okBuilder.readTimeout(DEFAULT_MILLISECONDS, TimeUnit.SECONDS);
@@ -59,24 +60,24 @@ public class OkClient {
         okBuilder.hostnameVerifier(HttpsUtils.UnSafeHostnameVerifier);
     }
 
-    public static OkClient getInstance(){
+    public static OkNet getInstance(){
         if (mInstance == null){
-            synchronized (OkClient.class){
+            synchronized (OkNet.class){
                 if (mInstance == null){
-                    mInstance = new OkClient();
+                    mInstance = new OkNet();
                 }
             }
         }
         return mInstance;
     }
 
-    public OkClient init(Application app){
+    public OkNet init(Application app){
         okHttpClient = okBuilder.build();
         this.context = app;
         return this;
     }
 
-    public OkClient addInterceptor(Interceptor interceptor){
+    public OkNet addInterceptor(Interceptor interceptor){
         if (okHttpClient != null){
             L.e("addInterceptor need to before of init()");
         }else {
@@ -93,6 +94,10 @@ public class OkClient {
         return new PostRequest<>(url);
     }
 
+    public static  <T> PutRequest<T> put(String url){
+        return new PutRequest<>(url);
+    }
+
     public Application getContext(){
         return context;
     }
@@ -105,7 +110,7 @@ public class OkClient {
         return okHttpClient;
     }
 
-    public OkClient setOkHttpClient(OkHttpClient okClient){
+    public OkNet setOkHttpClient(OkHttpClient okClient){
         this.okHttpClient = okClient;
         return this;
     }

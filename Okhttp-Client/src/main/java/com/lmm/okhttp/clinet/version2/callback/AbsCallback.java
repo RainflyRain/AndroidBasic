@@ -25,6 +25,11 @@ public abstract class AbsCallback<T> implements Callback<T>{
     }
 
     @Override
+    public void onResponse(T t, Call call, Response response) {
+
+    }
+
+    @Override
     public void downloadProgress(Progress progress) {
 
     }

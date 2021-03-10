@@ -2,7 +2,7 @@ package com.lmm.okhttp.clinet.version2.request;
 
 import androidx.annotation.NonNull;
 
-import com.lmm.okhttp.clinet.version2.OkClient;
+import com.lmm.okhttp.clinet.version2.OkNet;
 import com.lmm.okhttp.clinet.version2.callback.AbsCallback;
 import com.lmm.okhttp.clinet.version2.params.RequestHeaders;
 import com.lmm.okhttp.clinet.version2.params.RequestParams;
@@ -114,7 +114,7 @@ public abstract class Request<T,R extends Request>{
         //构建request
         okhttp3.Request request = generateRequest(new ProgressRequestBody<>(requestBody, callback));
         //构建call
-        return OkClient.getInstance().getOkHttpClient().newCall(request);
+        return OkNet.getInstance().getOkHttpClient().newCall(request);
     }
 
     /**
@@ -152,7 +152,7 @@ public abstract class Request<T,R extends Request>{
     }
 
     public void onFailure(Call call,Exception e,AbsCallback<T> callback){
-        OkClient.getInstance().getDelivery().post(new Runnable() {
+        OkNet.getInstance().getDelivery().post(new Runnable() {
             @Override
             public void run() {
                 callback.onFailure(call,e);
@@ -161,7 +161,7 @@ public abstract class Request<T,R extends Request>{
     }
 
     public void onResponse(T t,Call call,Response response,AbsCallback<T> callback){
-        OkClient.getInstance().getDelivery().post(new Runnable() {
+        OkNet.getInstance().getDelivery().post(new Runnable() {
             @Override
             public void run() {
                 callback.onResponse(t,call,response);
