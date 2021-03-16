@@ -68,8 +68,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void postForm(){
-        OkNet.<String>post("https://10.10.12.60:5000/login?name=fei")
-                .params("APP-SIGN","hello")
+        OkNet.<String>post("https://10.10.12.60:5000/postData?name=fei")
+                .params("name","afei")
                 .execute(new StringCallback() {
                     @Override
                     public void onResponse(String s, Call call, Response response) {

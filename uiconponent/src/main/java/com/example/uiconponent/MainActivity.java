@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.example.uiconponent.designer.ScrollingActivity;
+import com.example.uiconponent.draw.DrawApiActivity;
 import com.example.uiconponent.listview.ListActivity;
 
 /**
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.btn_designer:
                 startActivity(new Intent(this, ScrollingActivity.class));
+                break;
+            case R.id.btn_drawapi:
+                startActivity(new Intent(this, DrawApiActivity.class));
                 break;
             default:
                 break;

@@ -7,12 +7,9 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".draw.DrawApiActivity"></activity>
         <activity android:name=".input.InputActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".designer.ScrollingActivity"
@@ -20,7 +17,11 @@
             android:theme="@style/NoActionBar" />
         <activity android:name=".listview.ListActivity" />
         <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

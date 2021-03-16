@@ -1,6 +1,7 @@
 package com.friean.javabase.reflection;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 /**
@@ -25,6 +26,14 @@ public class ReflectionMain {
      */
     public static void main(String[] args) {
        Class cls = Student.class;
+       Type stuType =  cls.getGenericSuperclass();
+       System.out.println("Student GenericSuperClass" + stuType);
+        if (stuType instanceof ParameterizedType){
+            System.out.println("参数化类型");
+        }else {
+            System.out.println("非参数化类型");
+        }
+        System.out.println("");
        Method[] methods = cls.getDeclaredMethods();
         for (int i = 0; i < methods.length; i++) {
             Method method = methods[i];
@@ -35,6 +44,9 @@ public class ReflectionMain {
             System.out.println(type);
             System.out.println(type1);
             System.out.println(cl);
+
+            Package page = cl.getPackage();
+            Type type2 = cl.getGenericSuperclass();
         }
     }
 }
