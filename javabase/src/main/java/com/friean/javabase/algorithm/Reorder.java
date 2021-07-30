@@ -1,5 +1,8 @@
-package com.friean.javabase.designpatterns;
+package com.friean.javabase.algorithm;
 
+/**
+ * 排序算法
+ */
 public class Reorder {
 
     public static void main(String[] args) {

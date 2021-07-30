@@ -1,10 +1,13 @@
-package com.friean.javabase.designpatterns;
+package com.friean.javabase.algorithm;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Reform {
 
+    /**
+     * 归类存储到HashMap中
+     */
     public static void main(String[] args) {
         // Initializing a Dictionary:
         // { ‘A’: 1, ‘B.A’: 2, ‘B.B’: 3, ‘CC.D.E’: 4, ‘CC.D.F’: 5}

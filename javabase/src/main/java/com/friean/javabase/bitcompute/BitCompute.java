@@ -1,5 +1,8 @@
 package com.friean.javabase.bitcompute;
 
+/**
+ * 位计算
+ */
 public class BitCompute {
     public static void main(String[] args) {
         int LEFT = 1;
