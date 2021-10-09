@@ -4,15 +4,14 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.NestedScrollingChild3;
+import androidx.core.view.NestedScrollingChild2;
 import androidx.core.view.NestedScrollingChildHelper;
 
 /**
  * created by Fly on 2020/2/18
  */
-public class ChildView extends View implements NestedScrollingChild3 {
+public class ChildView extends View implements NestedScrollingChild2 {
 
     final NestedScrollingChildHelper childHelper = new NestedScrollingChildHelper(this);
 
@@ -29,8 +28,8 @@ public class ChildView extends View implements NestedScrollingChild3 {
     }
 
     @Override
-    public void dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, @Nullable int[] offsetInWindow, int type, @NonNull int[] consumed) {
-        childHelper.dispatchNestedScroll(dxConsumed,dyConsumed,dxUnconsumed,dyUnconsumed,offsetInWindow,type,consumed);
+    public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, @Nullable int[] offsetInWindow) {
+        return super.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 
     @Override

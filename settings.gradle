@@ -1,6 +1,6 @@
 include ':Okhttp-Client'
 include ':Rxjava-RxLife'
 include ':thirdcomponent'
-include ':app', ':buildSrc', ':uiconponent', ':jetpack'
+include ':app', ':uiconponent', ':jetpack'
 include ':androidbase'
 include ':javabase'

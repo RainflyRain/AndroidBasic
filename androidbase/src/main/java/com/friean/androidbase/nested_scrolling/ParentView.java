@@ -7,13 +7,13 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.view.NestedScrollingParent3;
+import androidx.core.view.NestedScrollingParent2;
 import androidx.core.view.NestedScrollingParentHelper;
 
 /**
  * created by Fly on 2020/2/18
  */
-public class ParentView extends LinearLayout implements NestedScrollingParent3 {
+public class ParentView extends LinearLayout implements NestedScrollingParent2 {
 
     final NestedScrollingParentHelper parentHelper = new NestedScrollingParentHelper(this);
 
@@ -30,9 +30,6 @@ public class ParentView extends LinearLayout implements NestedScrollingParent3 {
     }
 
     //==================================以下为NestedScrollingParent2 NestedScrollingParent3新方法======
-    @Override
-    public void onNestedScroll(@NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type, @NonNull int[] consumed) {
-    }
 
     @Override
     public boolean onStartNestedScroll(@NonNull View child, @NonNull View target, int axes, int type) {
