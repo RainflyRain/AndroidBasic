@@ -3,6 +3,7 @@ if (isLoadUiComponent.toBoolean()) {
 } else {
     apply plugin: 'com.android.application'
 }
+apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -45,6 +46,7 @@ dependencies {
 
     implementation rootProject.ext.dependencies.libAndroidSupportV7
     implementation rootProject.ext.dependencies.libConstraintLayout
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     testImplementation rootProject.ext.dependencies.libjunit
     androidTestImplementation rootProject.ext.dependencies.libTestRunner

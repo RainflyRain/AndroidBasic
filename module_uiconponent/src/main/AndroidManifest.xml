@@ -1,2 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.uiconponent" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.uiconponent">
+
+    <application
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".refresh.RefreshActivity" />
+        <activity android:name=".drawboard.DrawboardActivity" />
+        <activity android:name=".draw.DrawApiActivity" />
+        <activity android:name=".input.InputActivity" />
+        <activity
+            android:name=".designer.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/NoActionBar" />
+        <activity android:name=".listview.ListActivity" />
+    </application>
+
+</manifest>

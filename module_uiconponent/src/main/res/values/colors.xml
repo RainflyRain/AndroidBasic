@@ -35,4 +35,9 @@
     <color name="red6">#D54A47</color>
     <color name="red7">#E64340</color>
     <color name="red8">#FF3E3E</color>
+
+    <color name="blue_paint">#0065FF</color>
+    <color name="green_paint">#47CC47</color>
+    <color name="yellow_paint">#FF9C01</color>
+    <color name="red_paint">#FF3B30</color>
 </resources>

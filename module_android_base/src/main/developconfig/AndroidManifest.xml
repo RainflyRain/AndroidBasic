@@ -4,32 +4,32 @@
     package="com.friean.androidbase">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
         android:label="@string/app_name"
         android:supportsRtl="true"
+        android:icon="@drawable/abc_vector_test"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <!--aidl模块-->
-        <activity android:name=".aidl.AidlActivity">
+        <activity android:name=".AndroidMainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".aidl.BookManagerService"
-            android:process=":remote"
-            >
-
-        </service>
-        <activity android:name=".websocket.WebSocketActivity">
-
-        </activity>
+        <activity android:name=".services.ServiceActivity" /> <!-- aidl模块 -->
+        <activity android:name=".aidl.AidlActivity"/>
+        <activity android:name=".websocket.WebSocketActivity" />
         <activity android:name=".threadpoolexecutor.ThreadActivity" />
-        <activity android:name=".handler.HandlerActivity"></activity>
+        <activity android:name=".handler.HandlerActivity" />
 
+        <service
+            android:name=".aidl.BookManagerService"
+            android:process=":remote" />
+        <service android:name=".services.CommonService" />
         <service android:name=".threadpoolexecutor.MyIntentService" />
     </application>
 

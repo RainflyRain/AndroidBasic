@@ -6,14 +6,13 @@ import android.view.View;
 
 import com.example.uiconponent.designer.ScrollingActivity;
 import com.example.uiconponent.draw.DrawApiActivity;
-import com.example.uiconponent.listview.ListActivity;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 
-import com.example.uiconponent.refresh.RefreshFragment;
+import com.example.uiconponent.drawboard.DrawboardActivity;
+import com.example.uiconponent.input.InputActivity;
+import com.example.uiconponent.listview.ListActivity;
+import com.example.uiconponent.refresh.RefreshActivity;
 
 /**
  * ui模块入口
@@ -23,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 侧滑组件
      */
-    SlidingPaneLayout spl;
+    SlidingPaneLayout slidingPaneLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,36 +32,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-        spl = findViewById(R.id.spl_layout);
-        spl.setSliderFadeColor(getResources().getColor(R.color.shadow_gra));
-        spl.setParallaxDistance(100);
-        showFragment(RefreshFragment.newInstance());
+        slidingPaneLayout = findViewById(R.id.spl_layout);
+        slidingPaneLayout.setSliderFadeColor(getResources().getColor(R.color.shadow_gra));
+        slidingPaneLayout.setParallaxDistance(100);
     }
 
     public void onClickView(View view) {
         switch (view.getId()){
-//            case R.id.btn_menu:
-//                spl.openPane();
-//                break;
-//            case R.id.btn_list:
-//                startActivity(new Intent(this,ListActivity.class));
-//                break;
-            case R.id.btn_designer:
+            case R.id.btnNestedScroll:
                 startActivity(new Intent(this, ScrollingActivity.class));
                 break;
-            case R.id.btn_drawapi:
+            case R.id.btnDrawApi:
                 startActivity(new Intent(this, DrawApiActivity.class));
                 break;
-            default:
-            case R.id.btnRefresh:
-                showFragment(RefreshFragment.newInstance());
+            case R.id.btnDrawBoard:
+                startActivity(new Intent(this, DrawboardActivity.class));
                 break;
+            case R.id.btnInput:
+                startActivity(new Intent(this, InputActivity.class));
+                break;
+            case R.id.btnList:
+                startActivity(new Intent(this, ListActivity.class));
+                break;
+            case R.id.btnRefresh:
+                startActivity(new Intent(this, RefreshActivity.class));
+                break;
+            default:
         }
     }
 
-    private void showFragment(Fragment fragment){
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.llContainer,fragment).commit();
-    }
 }

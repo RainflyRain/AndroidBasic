@@ -5,12 +5,12 @@
 
     <application
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".draw.DrawApiActivity"></activity>
-        <activity android:name=".input.InputActivity">
-
-        </activity>
+        <activity android:name=".refresh.RefreshActivity" />
+        <activity android:name=".drawboard.DrawboardActivity" />
+        <activity android:name=".draw.DrawApiActivity" />
+        <activity android:name=".input.InputActivity" />
         <activity
             android:name=".designer.ScrollingActivity"
             android:label="@string/title_activity_scrolling"

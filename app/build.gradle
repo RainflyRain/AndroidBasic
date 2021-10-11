@@ -51,7 +51,4 @@ dependencies {
     if (isLoadUiComponent.toBoolean()){
         implementation project(path:':uiconponent')
     }
-
-    implementation 'com.billy.android:smart-swipe:1.1.0'
-    implementation 'com.billy.android:smart-swipe-x:1.1.0'
 }

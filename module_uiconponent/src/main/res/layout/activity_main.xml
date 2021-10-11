@@ -19,10 +19,8 @@
             android:orientation="vertical"
             >
             <Button
-                android:id="@+id/btnRefresh"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:onClick="onClickView"
                 />
         </LinearLayout>
 
@@ -35,23 +33,67 @@
             >
 
             <Button
-                android:id="@+id/btn_designer"
+                android:id="@+id/btnNestedScroll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:gravity="center"
-                android:text="Designer"
+                android:text="嵌套滑动联动"
                 android:textAllCaps="false"
                 android:onClick="onClickView"
                 />
 
             <Button
-                android:id="@+id/btn_drawapi"
+                android:id="@+id/btnDrawApi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
                 android:gravity="center"
-                android:text="DrawApi"
+                android:text="绘制Api"
+                android:textAllCaps="false"
+                android:onClick="onClickView"
+                />
+
+            <Button
+                android:id="@+id/btnDrawBoard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center"
+                android:text="画板"
+                android:textAllCaps="false"
+                android:onClick="onClickView"
+                />
+
+            <Button
+                android:id="@+id/btnInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center"
+                android:text="键盘输入"
+                android:textAllCaps="false"
+                android:onClick="onClickView"
+                />
+
+            <Button
+                android:id="@+id/btnList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center"
+                android:text="列表"
+                android:textAllCaps="false"
+                android:onClick="onClickView"
+                />
+
+            <Button
+                android:id="@+id/btnRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                android:gravity="center"
+                android:text="刷新"
                 android:textAllCaps="false"
                 android:onClick="onClickView"
                 />
