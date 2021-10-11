@@ -6,18 +6,20 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.BackpressureStrategy;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.core.FlowableEmitter;
 import io.reactivex.rxjava3.core.FlowableOnSubscribe;
 import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
 import io.reactivex.rxjava3.core.ObservableOnSubscribe;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        basicMethod();
+
+        backPress();
+    }
+
+    private void basicMethod() {
         Observable.create((ObservableOnSubscribe<String>) emitter -> {
             emitter.onNext("hello emitter");
             emitter.onError(new HandlerException("handle error"));
@@ -95,12 +103,44 @@ public class MainActivity extends AppCompatActivity {
             }
         }, BackpressureStrategy.LATEST)
         .subscribe(s -> Log.i(TAG, "accept: "+s));
+    }
 
-//        Flowable.interval(1, TimeUnit.SECONDS).subscribe((aLong) -> {
-//            Log.i(TAG, "accept is : "+aLong);
-//            Log.i(TAG, "accept: "+aLong);
-//        });
+    private void backPress(){
+        Observable.create(new ObservableOnSubscribe<Object>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<Object> emitter) throws Throwable {
+                for (int i = 0; i < 10; i++) {
+                    Thread.sleep(10);
+                    emitter.onNext(i);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Observer<Object>() {
+            @Override
+            public void onSubscribe(@NonNull Disposable d) {
+                Log.i(TAG, "onSubscribe: ");
+            }
 
+            @Override
+            public void onNext(@NonNull Object o) {
+                try {
+                    Thread.sleep(5000);
+                    Log.i(TAG, "onNext: "+o);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onError(@NonNull Throwable e) {
+                Log.i(TAG, "onError: ");
+            }
+
+            @Override
+            public void onComplete() {
+                Log.i(TAG, "onComplete: ");
+            }
+        });
     }
 }
