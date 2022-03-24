@@ -6,20 +6,7 @@ if (isLoadAndroidBase.toBoolean()) {
 apply plugin: 'kotlin-android'
 
 android {
-//    signingConfigs {
-//        debug {
-//            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
-//            storePassword 'kb_2015'
-//            keyAlias = 'fly'
-//            keyPassword 'kb_2015'
-//        }
-//        release {
-//            storeFile file('E:\\workspace\\androidworkspace\\rain.jks')
-//            storePassword 'kb_2015'
-//            keyAlias = 'fly'
-//            keyPassword 'kb_2015'
-//        }
-//    }
+
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
@@ -52,6 +39,9 @@ android {
         }
     }
 
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
