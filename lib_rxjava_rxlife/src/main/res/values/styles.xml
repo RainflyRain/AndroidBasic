@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="RxjavaAppTheme" parent="Theme.AppCompat.Light">
+        <!--Customize your theme here.-->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:textColorSecondary">@color/secondaryTextColor</item>
+
+        <item name="buttonStyle">@style/Widgets.Button</item>
+        <item name="android:buttonStyle">@style/Widgets.Button</item>
+    </style>
+
+</resources>

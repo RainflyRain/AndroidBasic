@@ -3,7 +3,7 @@
     package="com.leathwear.rxjava.rxlife">
 
     <application
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/RxjavaAppTheme"
         >
         <activity android:name=".MainActivity">
             <intent-filter>

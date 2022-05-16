@@ -1,0 +1,74 @@
+<resources>
+    <declare-styleable name="ShapeButton">
+        <!--shape模式-->
+        <attr name="sp_shapeMode" format="enum">
+            <enum name="rectangle" value="0" />
+            <enum name="oval" value="1" />
+            <enum name="line" value="2" />
+            <enum name="ring" value="3" />
+        </attr>
+        <!--填充颜色-->
+        <attr name="sp_fillColor" format="color" />
+        <!--按压颜色-->
+        <attr name="sp_pressedColor" format="color" />
+        <!--描边颜色-->
+        <attr name="sp_strokeColor" format="color" />
+        <!--描边宽度-->
+        <attr name="sp_strokeWidth" format="dimension" />
+        <!--圆角大小-->
+        <attr name="sp_cornerRadius" format="dimension" />
+        <!--圆角位置-->
+        <attr name="sp_cornerPosition">
+            <flag name="topLeft" value="1" />
+            <flag name="topRight" value="2" />
+            <flag name="bottomRight" value="4" />
+            <flag name="bottomLeft" value="8" />
+        </attr>
+        <!--是否开启动效-->
+        <attr name="sp_activeEnable" format="boolean" />
+        <!--drawable位置-->
+        <attr name="sp_drawablePosition" format="enum">
+            <enum name="left" value="0" />
+            <enum name="top" value="1" />
+            <enum name="right" value="2" />
+            <enum name="bottom" value="3" />
+        </attr>
+        <!--渐变开始颜色-->
+        <attr name="sp_startColor" format="color" />
+        <!--渐变结束颜色-->
+        <attr name="sp_endColor" format="color" />
+        <!--渐变方向-->
+        <attr name="sp_orientation" format="enum">
+            <enum name="TOP_BOTTOM" value="0" />
+            <enum name="LEFT_RIGHT" value="1" />
+        </attr>
+        <!--是否带有阴影-->
+        <attr name="sp_withElevation" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ShapeConstraintLayout">
+        <attr name="sp_shapeMode"/>
+        <attr name="sp_fillColor"/>
+        <attr name="sp_strokeColor" />
+        <attr name="sp_strokeWidth" />
+        <attr name="sp_cornerRadius" />
+        <attr name="sp_cornerPosition"/>
+        <attr name="sp_startColor"/>
+        <attr name="sp_endColor" />
+        <attr name="sp_orientation" />
+        <attr name="sp_withElevation"/>
+    </declare-styleable>
+
+    <declare-styleable name="ShapeRelativeLayout">
+        <attr name="sp_shapeMode"/>
+        <attr name="sp_fillColor"/>
+        <attr name="sp_strokeColor" />
+        <attr name="sp_strokeWidth" />
+        <attr name="sp_cornerRadius" />
+        <attr name="sp_cornerPosition"/>
+        <attr name="sp_startColor"/>
+        <attr name="sp_endColor" />
+        <attr name="sp_orientation" />
+        <attr name="sp_withElevation"/>
+    </declare-styleable>
+</resources>

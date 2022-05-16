@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.friean.androidbase">
+    package="com.leathwear.rxjava.rxlife">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
-        android:supportsRtl="true"
-        tools:ignore="GoogleAppIndexingWarning">
+        android:theme="@style/RxjavaAppTheme"
+        android:name=".RxjavaApplication"
+        android:label="@string/appName">
 
-        <activity android:name="com.leathwear.rxjava.rxlife.MainActivity">
+        <activity android:name="com.leathwear.rxjava.rxlife.MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-        </activity>>
+        </activity>
     </application>
 
 </manifest>
