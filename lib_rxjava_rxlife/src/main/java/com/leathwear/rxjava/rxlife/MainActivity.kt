@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         fun rxJavaEvent4(view: View){
-            flowableExample.loadDependent()
+//            flowableExample.undeliverable()
+            flowableExample.syncData()
         }
     }
 
