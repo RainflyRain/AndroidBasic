@@ -5,40 +5,60 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.graphics.Color
 
-private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+@Immutable
+data class ComposeColors(
+    val navigation: Color = Color.Unspecified,
+    val dailyCalories: Color = Color.Unspecified,
+    val dailyExerciseTime: Color = Color.Unspecified,
+    val gradientBg0:Color = Color.Unspecified,
+    val gradientBg1:Color = Color.Unspecified
 )
 
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
+private val LocalExtendedColors = staticCompositionLocalOf { ComposeColors() }
 
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+private val DarkColors = darkColors(
+    primary = Primary,
+    secondary = Secondary,
+    background = Background
+    // ...
 )
+private val LightColors = lightColors(
+    primary = Primary,
+    secondary = Secondary,
+    background = Background
+    // ...
+)
+
 
 @Composable
-fun AndroidBasicTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorPalette
-    } else {
-        LightColorPalette
-    }
-
-    MaterialTheme(
-        colors = colors,
-        typography = Typography,
-        shapes = Shapes,
-        content = content
+fun ComposeTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    val extendedColors = ComposeColors(
+        navigation = Navigation,
+        dailyCalories = DailyCalories,
+        dailyExerciseTime = DailyExerciseTime,
+        gradientBg0 = GradientBg0,
+        gradientBg1 = GradientBg1
     )
+
+    CompositionLocalProvider(LocalExtendedColors provides extendedColors) {
+        MaterialTheme(
+            colors = if (darkTheme) DarkColors else LightColors,
+            content = content
+        )
+    }
+}
+
+// Use with eg. ExtendedTheme.colors.tertiary
+object ComposeTheme {
+    val colors: ComposeColors
+        @Composable
+        get() = LocalExtendedColors.current
 }
