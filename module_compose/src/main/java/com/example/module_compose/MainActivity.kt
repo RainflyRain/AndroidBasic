@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
 
                     BottomTabBar(
                         currentPage.currentPage,
-                        Modifier.background(MaterialTheme.colors.primary)
+                        Modifier.background(ComposeTheme.colors.navigation)
                     ) {
                         // 点击页签后，在协程里翻页
                         scope.launch {
@@ -64,7 +64,7 @@ fun DefaultPreview() {
 
             HomeContent(currentPage, Modifier.weight(1f))
 
-            BottomTabBar(currentPage.currentPage, Modifier.background(MaterialTheme.colors.primary))
+            BottomTabBar(currentPage.currentPage, Modifier.background(ComposeTheme.colors.navigation))
         }
     }
 }

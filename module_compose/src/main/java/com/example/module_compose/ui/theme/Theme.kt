@@ -16,7 +16,13 @@ data class ComposeColors(
     val dailyCalories: Color = Color.Unspecified,
     val dailyExerciseTime: Color = Color.Unspecified,
     val gradientBg0:Color = Color.Unspecified,
-    val gradientBg1:Color = Color.Unspecified
+    val gradientBg1:Color = Color.Unspecified,
+
+    val textPrimary:Color = Color.Unspecified,
+    val textSecondary:Color = Color.Unspecified,
+    val textTertiary:Color = Color.Unspecified,
+
+    val line:Color = Color.Unspecified
 )
 
 private val LocalExtendedColors = staticCompositionLocalOf { ComposeColors() }
@@ -45,7 +51,11 @@ fun ComposeTheme(
         dailyCalories = DailyCalories,
         dailyExerciseTime = DailyExerciseTime,
         gradientBg0 = GradientBg0,
-        gradientBg1 = GradientBg1
+        gradientBg1 = GradientBg1,
+        textPrimary = TextPrimary,
+        textSecondary = TextSecondary,
+        textTertiary = TextTertiary,
+        line = Line
     )
 
     CompositionLocalProvider(LocalExtendedColors provides extendedColors) {

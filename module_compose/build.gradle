@@ -88,4 +88,5 @@ dependencies {
     implementation 'com.google.accompanist:accompanist-pager:0.24.11-rc'
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.24.11-rc"
     implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha02"
+    implementation 'io.github.shenzhen2017:compose-refreshlayout:1.0.0'
 }

@@ -76,7 +76,8 @@ fun TextButtonWidget(
             Text(
                 txt,
                 Modifier
-                    .clickable { onClick?.invoke() },
+                    .clickable { onClick?.invoke() }
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
                 color = Color.White,
                 fontSize = 16.sp
             )
@@ -87,8 +88,8 @@ fun TextButtonWidget(
                 tint = Color.White,
                 modifier = Modifier
                     .clickable { onClick?.invoke() }
-                    .size(36.dp)
-                    .padding(8.dp)
+                    .size(width = 52.dp, height = 36.dp)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
             )
         }
     }

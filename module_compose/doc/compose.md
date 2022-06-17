@@ -131,6 +131,24 @@ val (value, setValue) = remember { mutableStateOf(default) }
 
 
 
+### compose
+
+可组合项的生命周期通过以下事件定义：进入组合，执行 0 次或多次重组，然后退出组合。
+
+<img src="https://developer.android.com/images/jetpack/compose/lifecycle-composition.png" alt="展示可组合项生命周期的示意图" style="zoom:50%;float:left" />
+
+- 添加额外信息以促进智能重组
+- 如果输入未更改，则跳过
+
+### 状态保存
+
+> remember 会将对象存储在组合中，当调用 remember 的可组合项从组合中移除后，它会忘记该对象。
+> rememberSaveable 通过将状态保存在 Bundle 中来保留状态，使其在配置更改后仍保持不变。
+
+
+
+
+
 ## 修饰符
 
 #### 作用
@@ -196,7 +214,8 @@ https://developer.android.google.cn/reference/kotlin/androidx/compose/foundation
 Column{}
 Row(}
 Box{}
-BoxWithConstraints{}
+ConstraintLayout{}  
+BoxWithConstraints{}  
 ```
 
 #### 布局模型
@@ -211,7 +230,11 @@ Compose 提供了大量基于 [Material Design](https://material.io/design/) 的
 
 
 
-## 架构分层
+## 架构
+
+
+
+### 架构分层
 
 <img src="compose/image-20220614163817039.png" alt="image-20220614163817039" style="zoom:50%;float:left" />
 
@@ -219,30 +242,15 @@ Compose 提供了大量基于 [Material Design](https://material.io/design/) 的
 
 <img src="compose/image-20220614111809203.png" alt="image-20220614111809203" style="zoom:50%;float:left" />
 
+### 单向数据流（UDF）
 
-
-## 常用可组合函数
-
-#### 示例
-
-
-
-```kotlin
-Column()
-Row()
-Box()
-Text()
-Image()
-Icon()
-OutlinedTextField()
-Button()
-TextButton()
-HorizontalPager()
-```
+<img src="https://developer.android.com/images/jetpack/compose/state-unidirectional-flow.png" alt="img" style="zoom:50%;float:left" />
 
 
 
 ## 主题
+
+
 
 ## 动画
 
@@ -271,10 +279,166 @@ Compose 为 `Float`、`Color`、`Dp`、`Size`、`Offset`、`Rect`、`Int`、`Int
 
 
 
+## 手势
+
+```kotlin
+//点击
+Modifier.clickable {}
+//按下、长按、双击、抬起
+Modifier.pointerInput(Unit) {
+    detectTapGestures(
+        onPress = { /* Called when the gesture starts */ },
+        onDoubleTap = { /* Called on Double Tap */ },
+        onLongPress = { /* Called on Long Press */ },
+        onTap = { /* Called on Tap */ }
+    )
+}
+//滚动修饰符：会滚动子组件
+Modifier.verticalScroll(rememberScrollState()) //horizontalScroll
+//可滚动修饰符：只监听手势滑动距离delta，不移动元素。
+Modifier.scrollable(
+                orientation = Orientation.Vertical,
+                state = rememberScrollableState { delta ->
+                    
+                }
+            )
+//嵌套滚动：verticalScroll、horizontalScroll、scrollable、Lazy API 和 TextField
+
+//拖动：此修饰符不会移动元素，而只检测手势。
+var offsetX by remember { mutableStateOf(0f) }
+Modifier.draggable(
+            orientation = Orientation.Horizontal,
+            state = rememberDraggableState { delta ->
+              offsetX += delta
+            }
+        )
+var offsetX by remember { mutableStateOf(0f) }
+var offsetY by remember { mutableStateOf(0f) }
+Modifier.pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    change.consumeAllChanges()
+                    offsetX += dragAmount.x
+                    offsetY += dragAmount.y
+                }
+            }
+//滑动：朝一个方向定义的两个或多个锚点呈现动画效果，此修饰符不会移动元素，而只检测手势。
+val swipeableState = rememberSwipeableState(0)
+val anchors = mapOf(0f to 0, 48f to 1)
+Modifier.swipeable(
+                state = swipeableState,
+                anchors = anchors,
+                thresholds = { _, _ -> FractionalThreshold(0.3f) },
+                orientation = Orientation.Horizontal
+            )
+//多点触控：平移、缩放、旋转，此修饰符不会移动元素，而只检测手势。
+val state = rememberTransformableState { zoomChange, offsetChange, rotationChange ->
+        scale *= zoomChange
+        rotation += rotationChange
+        offset += offsetChange
+    }
+Modifier.transformable(state = state)
+//其他
+PointerInputScope.detectTransformGestures 
+```
+
+
+
+## 互动
+
+```kotlin
+//互动状态：MutableInteractionSource/InteractionSource
+val interactionSource = remember { MutableInteractionSource() }
+val isPressed by interactionSource.collectIsPressedAsState()
+
+Button(
+    onClick = { /* do something */ },
+    interactionSource = interactionSource) {
+    Text(if (isPressed) "Pressed!" else "Not pressed")
+}
+//使用InteractionSource
+val interactions = remember { mutableStateListOf<Interaction>() }
+
+LaunchedEffect(interactionSource) {
+    interactionSource.interactions.collect { interaction ->
+        when (interaction) {
+            is PressInteraction.Press -> {
+                interactions.add(interaction)
+            }
+            is PressInteraction.Release -> {
+                interactions.remove(interaction.press)
+            }
+            is PressInteraction.Cancel -> {
+                interactions.remove(interaction.press)
+            }
+            is DragInteraction.Start -> {
+                interactions.add(interaction)
+            }
+            is DragInteraction.Stop -> {
+                interactions.remove(interaction.start)
+            }
+            is DragInteraction.Cancel -> {
+                interactions.add(interaction.start)
+            }
+        }
+    }
+}
+//是否按下
+val isPressedOrDragged = interactions.isNotEmpty()
+//最近一次互动
+val lastInteraction = when (interactions.lastOrNull()) {
+    is DragInteraction.Start -> "Dragged"
+    is PressInteraction.Press -> "Pressed"
+    else -> "No state"
+}
+```
+
+
+
 ## 资料
+
+
+
+### 常用可组合函数
+
+
+
+```kotlin
+Column()
+Row()
+LazyColumn()
+LazyRow()
+Box()
+ConstraintLayout()
+Text()
+Image()
+Icon()
+Canvas()
+OutlinedTextField()
+Button()
+TextButton()
+HorizontalPager()
+```
+
+
 
 
 
 ### 支持库
 
 https://github.com/google/accompanist
+
+
+
+q/iu w/ia/ua e r/uan/er t/ue/ve y/uai u/sh i/ch o/uo p/un
+
+a s/ong/iong d/uang/iang f/en g/eng h/an j/ang k/ao l/ai ;/ing
+
+z/ei x/ie c/iao v/zh/ui b/ou n/in m/ian 
+
+
+
+q/iu w/ia/ua e r/uan/er t/ue/ve y/uai u/sh i/ch o/uo p/un
+
+a s/ong/iong d/uang/iang f/en g/eng h/ang j/an k/ao l/ai ;/ing
+
+z/ei x/ie c/iao v/zh/ui b/ou n/in  m/iam 
