@@ -11,7 +11,6 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.friean.androidbase.R
 import com.friean.androidbase.databinding.ActivityNotificationBinding
-import com.leathwear.music.notification.NotificationService
 
 class NotificationActivity : AppCompatActivity() {
 

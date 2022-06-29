@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.friean.androidbase.databinding.ActivityAndroidMainBinding
 import com.friean.androidbase.date.DateActivity
+import com.friean.androidbase.notification.NotificationActivity
 import com.friean.androidbase.services.ServiceActivity
 import com.friean.androidbase.webview.WebActivity
 
@@ -34,6 +35,9 @@ class AndroidMainActivity : AppCompatActivity() {
                 }
                 R.id.btnWeb -> {
                     startActivity(Intent(this@AndroidMainActivity, WebActivity::class.java))
+                }
+                R.id.btnNotification -> {
+                    startActivity(Intent(this@AndroidMainActivity,NotificationActivity::class.java))
                 }
             }
         }

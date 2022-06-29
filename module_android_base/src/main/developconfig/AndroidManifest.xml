@@ -31,12 +31,13 @@
         <activity android:name=".websocket.WebSocketActivity" />
         <activity android:name=".threadpoolexecutor.ThreadActivity" />
         <activity android:name=".handler.HandlerActivity" />
-
+        <activity android:name=".notification.NotificationActivity"/>
         <service
             android:name=".aidl.BookManagerService"
             android:process=":remote" />
         <service android:name=".services.CommonService" />
         <service android:name=".threadpoolexecutor.MyIntentService" />
+        <service android:name=".notification.NotificationService"/>
     </application>
 
 </manifest>

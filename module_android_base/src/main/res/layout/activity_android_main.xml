@@ -42,6 +42,14 @@
                 android:layout_marginTop="8dp"
                 android:onClick="@{eventHandler::serviceClicked}"
                 android:text="Web" />
+
+            <Button
+                android:id="@+id/btnNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="@{eventHandler::serviceClicked}"
+                android:text="通知"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
