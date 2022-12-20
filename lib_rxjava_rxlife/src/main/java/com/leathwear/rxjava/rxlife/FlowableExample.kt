@@ -16,7 +16,7 @@ import java.util.concurrent.Callable
  */
 class FlowableExample {
 
-    fun undeliverable(){
+    fun undeliverable() {
         RxJavaPlugins.setErrorHandler { error: Throwable? ->
             Log.i(TAG, "undeliverable: $error")
         }
@@ -47,7 +47,9 @@ class FlowableExample {
         Observable.create(ObservableOnSubscribe { emitter: ObservableEmitter<String> ->
             emitter.onNext("hello emitter")
             emitter.onError(RuntimeException("handle error"))
-        } as ObservableOnSubscribe<String>)
+        } as ObservableOnSubscribe<String>).doOnNext {
+            Log.i(TAG, "doOnNext: "+it)
+        }
             .subscribe({ s: String -> Log.i(TAG, "onCreate: $s") }) { e: Throwable ->
                 Log.i(
                     TAG,
@@ -130,8 +132,8 @@ class FlowableExample {
                 Log.i(TAG, "loadMore create: $i")
                 it.onNext("loadMore $i")
                 Thread.sleep(50)
-                if (i == 10){
-                    5/0
+                if (i == 10) {
+                    5 / 0
                 }
             }
             it.onComplete()
@@ -139,14 +141,14 @@ class FlowableExample {
             .onErrorReturn { "loadMore Error" }
     }
 
-    fun loadNet(): Flowable<String>{
+    fun loadNet(): Flowable<String> {
         return Flowable.create<String>({
             for (i in 1..20) {
                 Log.i(TAG, "loadNet create: $i")
                 it.onNext("loadNet $i")
                 Thread.sleep(50)
-                if (i == 10){
-                    5/0
+                if (i == 10) {
+                    5 / 0
                 }
             }
             it.onComplete()
@@ -169,7 +171,7 @@ class FlowableExample {
             })
     }
 
-    fun loadDependent(){
+    fun loadDependent() {
         refresh().flatMap {
             loadMore()
         }.flatMap {
@@ -184,13 +186,13 @@ class FlowableExample {
             })
     }
 
-    fun syncData(){
+    fun syncData() {
 
         val step1 = Observable.create<String> { e ->
-            for (i in 1..20){
-                e.onNext(i.toString() +" step1")
-                if (i == 20){
-                    Thread{
+            for (i in 1..20) {
+                e.onNext(i.toString() + " step1")
+                if (i == 20) {
+                    Thread {
                         Log.i(TAG, "syncData: 同步step1 结束")
                         Thread.sleep(5000)
                         Log.i(TAG, "syncData: syncData: 同步step1 结束2")
@@ -201,10 +203,10 @@ class FlowableExample {
         }
 
         val step2 = Observable.create<String> { e ->
-            for (i in 1..20){
-                e.onNext(i.toString() +" step2")
-                if (i == 20){
-                    Thread{
+            for (i in 1..20) {
+                e.onNext(i.toString() + " step2")
+                if (i == 20) {
+                    Thread {
                         Log.i(TAG, "syncData: 同步step2 结束")
                         Thread.sleep(5000)
                         Log.i(TAG, "syncData: syncData: 同步step2 结束2")
@@ -215,10 +217,10 @@ class FlowableExample {
         }
 
         val step3 = Observable.create<String> { e ->
-            for (i in 1..20){
-                e.onNext(i.toString()+" step3")
-                if (i == 20){
-                    Thread{
+            for (i in 1..20) {
+                e.onNext(i.toString() + " step3")
+                if (i == 20) {
+                    Thread {
                         Log.i(TAG, "syncData: 同步step3 结束")
                         Thread.sleep(5000)
                         Log.i(TAG, "syncData: syncData: 同步step3 结束2")
@@ -229,10 +231,10 @@ class FlowableExample {
         }
 
         val step4 = Observable.create<String> { e ->
-            for (i in 1..20){
-                e.onNext(i.toString() +" step4")
-                if (i == 20){
-                    Thread{
+            for (i in 1..20) {
+                e.onNext(i.toString() + " step4")
+                if (i == 20) {
+                    Thread {
                         Log.i(TAG, "syncData: 同步step4 结束")
                         Thread.sleep(5000)
                         Log.i(TAG, "syncData: syncData: 同步step4 结束2")
@@ -242,12 +244,12 @@ class FlowableExample {
             }
         }
 
-        val listObservables = listOf(step1,step2,step3,step4)
+        val listObservables = listOf(step1, step2, step3, step4)
 
         Observable.concat<String>(listObservables)
-            .takeUntil{
+            .takeUntil {
                 val finished = it.equals("19 step1")
-                if (finished){
+                if (finished) {
                     Log.i(TAG, "takeUntil subscribe: $finished , $it")
                 }
                 finished
@@ -255,13 +257,13 @@ class FlowableExample {
             .subscribeOn(Schedulers.newThread())
             .subscribe({
                 Log.i(TAG, "subscribe: 同步成功 $it")
-            },{
+            }, {
                 Log.i(TAG, "subscribe: 异常")
             })
 
     }
 
-    companion object{
+    companion object {
         private const val TAG = "FlowableExample"
     }
 }
