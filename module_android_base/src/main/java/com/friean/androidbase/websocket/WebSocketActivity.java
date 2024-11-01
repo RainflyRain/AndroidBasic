@@ -1,24 +1,12 @@
 package com.friean.androidbase.websocket;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.friean.androidbase.R;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.AbsCallback;
-import com.lzy.okgo.model.Response;
-import com.zhangke.websocket.SimpleListener;
-import com.zhangke.websocket.WebSocketHandler;
-import com.zhangke.websocket.WebSocketManager;
-import com.zhangke.websocket.WebSocketSetting;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,17 +15,13 @@ import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
 
 import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
-import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
-import javax.net.ssl.X509TrustManager;
 
 public class WebSocketActivity extends AppCompatActivity {
 
@@ -70,55 +54,55 @@ public class WebSocketActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_socket);
 
-        OkGo.getInstance().init(getApplication());
-
-        OkGo.<String>get("https://cszj.lvcsmart.com/ws/getWebSocketUrl")
-                .execute(new AbsCallback<String>() {
-                    @Override
-                    public void onSuccess(Response<String> response) {
-                        Log.i(TAG, "onSuccess: " + response.body());
-
-                        try {
-                            JSONObject jsonObject = new JSONObject(response.body());
-                            URI uri = URI.create(jsonObject.optString("url"));
-                            Log.e(TAG, "onSuccess: " + uri.toString());
-
-                            WebSocketSetting setting = new WebSocketSetting();
-                            setting.setConnectUrl(jsonObject.optString("url"));
-                            WebSocketManager manager = WebSocketHandler.init(setting);
-                            manager.addListener(new SimpleListener() {
-                                @Override
-                                public void onConnected() {
-                                    super.onConnected();
-                                    Log.i(TAG, "onConnected: ");
-                                }
-
-                                @Override
-                                public void onConnectFailed(Throwable e) {
-                                    super.onConnectFailed(e);
-                                    Log.i(TAG, "onConnectFailed: ");
-                                }
-
-                                @Override
-                                public <T> void onMessage(String message, T data) {
-                                    super.onMessage(message, data);
-                                    Log.i(TAG, "onMessage: "+message);
-                                }
-
-                            });
-                            manager.start();
-//                            new Thread(new SSLContextTask(getResources().openRawResource(R.raw.rain),handler)).start();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    @Override
-                    public String convertResponse(okhttp3.Response response) throws Throwable {
-                        return response.body().string();
-                    }
-                });
+//        OkGo.getInstance().init(getApplication());
+//
+//        OkGo.<String>get("https://cszj.lvcsmart.com/ws/getWebSocketUrl")
+//                .execute(new AbsCallback<String>() {
+//                    @Override
+//                    public void onSuccess(Response<String> response) {
+//                        Log.i(TAG, "onSuccess: " + response.body());
+//
+//                        try {
+//                            JSONObject jsonObject = new JSONObject(response.body());
+//                            URI uri = URI.create(jsonObject.optString("url"));
+//                            Log.e(TAG, "onSuccess: " + uri.toString());
+//
+//                            WebSocketSetting setting = new WebSocketSetting();
+//                            setting.setConnectUrl(jsonObject.optString("url"));
+//                            WebSocketManager manager = WebSocketHandler.init(setting);
+//                            manager.addListener(new SimpleListener() {
+//                                @Override
+//                                public void onConnected() {
+//                                    super.onConnected();
+//                                    Log.i(TAG, "onConnected: ");
+//                                }
+//
+//                                @Override
+//                                public void onConnectFailed(Throwable e) {
+//                                    super.onConnectFailed(e);
+//                                    Log.i(TAG, "onConnectFailed: ");
+//                                }
+//
+//                                @Override
+//                                public <T> void onMessage(String message, T data) {
+//                                    super.onMessage(message, data);
+//                                    Log.i(TAG, "onMessage: "+message);
+//                                }
+//
+//                            });
+//                            manager.start();
+////                            new Thread(new SSLContextTask(getResources().openRawResource(R.raw.rain),handler)).start();
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//
+//                    }
+//
+//                    @Override
+//                    public String convertResponse(okhttp3.Response response) throws Throwable {
+//                        return response.body().string();
+//                    }
+//                });
     }
 
     static class SSLContextTask implements Runnable{

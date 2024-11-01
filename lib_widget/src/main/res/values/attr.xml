@@ -47,28 +47,50 @@
     </declare-styleable>
 
     <declare-styleable name="ShapeConstraintLayout">
-        <attr name="sp_shapeMode"/>
-        <attr name="sp_fillColor"/>
+        <attr name="sp_shapeMode" />
+        <attr name="sp_fillColor" />
         <attr name="sp_strokeColor" />
         <attr name="sp_strokeWidth" />
         <attr name="sp_cornerRadius" />
-        <attr name="sp_cornerPosition"/>
-        <attr name="sp_startColor"/>
+        <attr name="sp_cornerPosition" />
+        <attr name="sp_startColor" />
         <attr name="sp_endColor" />
         <attr name="sp_orientation" />
-        <attr name="sp_withElevation"/>
+        <attr name="sp_withElevation" />
     </declare-styleable>
 
     <declare-styleable name="ShapeRelativeLayout">
-        <attr name="sp_shapeMode"/>
-        <attr name="sp_fillColor"/>
+        <attr name="sp_shapeMode" />
+        <attr name="sp_fillColor" />
         <attr name="sp_strokeColor" />
         <attr name="sp_strokeWidth" />
         <attr name="sp_cornerRadius" />
-        <attr name="sp_cornerPosition"/>
-        <attr name="sp_startColor"/>
+        <attr name="sp_cornerPosition" />
+        <attr name="sp_startColor" />
         <attr name="sp_endColor" />
         <attr name="sp_orientation" />
-        <attr name="sp_withElevation"/>
+        <attr name="sp_withElevation" />
+    </declare-styleable>
+
+    <declare-styleable name="SectorMenuButton">
+        <attr name="aebMainButtonSizeDp" format="dimension|reference" />
+        <attr name="aebSubButtonSizeDp" format="dimension|reference" />
+        <attr name="aebButtonGapDp" format="dimension|reference" />
+        <attr name="aebStartAngleDegree" format="integer|reference" />
+        <attr name="aebEndAngleDegree" format="integer|reference" />
+        <attr name="aebAnimDurationMillis" format="integer|reference" />
+        <attr name="aebButtonElevation" format="dimension|reference" />
+        <attr name="aebMaskBackgroundColor" format="color|reference" />
+        <attr name="aebIsSelectionMode" format="boolean" />
+        <attr name="aebMainButtonTextColor" format="color|reference" />
+        <attr name="aebSubButtonTextColor" format="color|reference" />
+        <attr name="aebMainButtonTextSizeSp" format="dimension|reference" />
+        <attr name="aebSubButtonTextSizeSp" format="dimension|reference" />
+        <attr name="aebRippleEffect" format="boolean" />
+        <attr name="aebRippleColor" format="color|reference" />
+        <attr name="aebMainButtonRotateDegree" format="integer|reference" />
+        <attr name="aebMainButtonRotateAnimDurationMillis" format="integer|reference" />
+        <attr name="aebBlurBackground" format="boolean" />
+        <attr name="aebBlurRadius" format="float|reference" />
     </declare-styleable>
 </resources>

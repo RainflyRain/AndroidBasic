@@ -1,7 +1,9 @@
 package com.example.module_compose.widget
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.rememberTransformableState
 import androidx.compose.foundation.gestures.transformable
@@ -15,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -99,7 +102,7 @@ fun MinePage(){
         Box(modifier = Modifier.fillMaxSize()) {
             var offsetX by remember { mutableStateOf(0f) }
             var offsetY by remember { mutableStateOf(0f) }
-
+            val context = LocalContext.current
             Box(
                 Modifier
                     .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
@@ -113,6 +116,11 @@ fun MinePage(){
                             offsetY += dragAmount.y
                         }
                     }
+                    .clickable(
+                        onClick = {
+                            Toast.makeText(context, "点击了", Toast.LENGTH_SHORT).show()
+                        }
+                    )
             )
         }
     }
