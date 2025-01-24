@@ -29,4 +29,18 @@
         android:onClick="onViewClick"
         android:text="客服页"/>
 
+    <Button
+        android:id="@+id/btnStartService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="启动服务"
+        android:onClick="onViewClick"/>
+
+    <Button
+        android:id="@+id/btnStopService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="停止服务"
+        android:onClick="onViewClick"/>
+
 </LinearLayout>

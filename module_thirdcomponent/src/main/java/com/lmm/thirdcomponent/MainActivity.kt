@@ -7,13 +7,17 @@ import android.util.Log
 import android.view.View
 import com.lmm.thirdcomponent.badge.BadgeNumberManager
 import com.lmm.thirdcomponent.customerservice.CustomerServiceImp
+import com.lmm.thirdcomponent.server.HttpServerService
 import com.qiyukf.unicorn.api.Unicorn.setUserInfo
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var httpServiceIntent:Intent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        httpServiceIntent = Intent(this, HttpServerService::class.java)
         parseIntent()
     }
 
@@ -23,7 +27,13 @@ class MainActivity : AppCompatActivity() {
                 setUserInfo("Fly0123456") {
                     addMsgListener({
                         Log.i(TAG, "addMsgListener 推送消息: $it")
-                        BadgeNumberManager.from(this@MainActivity).setBadgeNumber(if(it.count > 0){ 1} else {0})
+                        BadgeNumberManager.from(this@MainActivity).setBadgeNumber(
+                            if (it.count > 0) {
+                                1
+                            } else {
+                                0
+                            }
+                        )
                     }, true)
                 }
             }
@@ -37,26 +47,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onViewClick(view: View) {
-        when(view.id){
-            R.id.btnSetUserInfo->{
+        when (view.id) {
+            R.id.btnSetUserInfo -> {
                 CustomerServiceImp.instance().toCustomerService(this)
             }
-            R.id.btnLogout->{
+
+            R.id.btnLogout -> {
                 CustomerServiceImp.instance().logout()
                 this.finish()
             }
-            R.id.btnToCs->{
+
+            R.id.btnToCs -> {
                 CustomerServiceImp.instance().toCustomerService(this)
+            }
+
+            R.id.btnStartService -> {
+                startService(httpServiceIntent)
+            }
+
+            R.id.btnStopService -> {
+                stopService(httpServiceIntent)
             }
         }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        CustomerServiceImp.instance().addMsgListener(null,false)
+        CustomerServiceImp.instance().addMsgListener(null, false)
     }
 
-    companion object{
+    companion object {
         private const val TAG = "MainActivity"
     }
 }

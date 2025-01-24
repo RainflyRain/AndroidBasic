@@ -69,12 +69,15 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:2.3.0'
 
     //阴影控件库
-    api 'com.github.lihangleo2:ShadowLayout:2.0.1'
+    api 'com.github.lihangleo2:ShadowLayout:2.1.8'
 
-    implementation 'com.blankj:utilcode:1.30.5'
+    implementation 'com.blankj:utilcodex:1.31.1'
 
     implementation "com.github.bumptech.glide:glide:4.12.0"
 
     //七鱼客服
     implementation 'com.qiyukf.unicorn:unicorn:7.5.0'
+
+    //网络库 支持http/https/socket 客户端和服务端
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
 }

@@ -98,8 +98,8 @@ fun DevicePage() {
 
 @Composable
 fun MinePage(){
-    Column {
-        Box(modifier = Modifier.fillMaxSize()) {
+    Column() {
+        Box(modifier = Modifier.fillMaxSize().align(Alignment.Start)) {
             var offsetX by remember { mutableStateOf(0f) }
             var offsetY by remember { mutableStateOf(0f) }
             val context = LocalContext.current
@@ -131,7 +131,7 @@ fun MinePage(){
 fun HomeContentPreview() {
     ComposeTheme {
 //        GoalPage()
-        WorkoutPage()
+        MinePage()
 //        PageItem(string = "内容")
     }
 }

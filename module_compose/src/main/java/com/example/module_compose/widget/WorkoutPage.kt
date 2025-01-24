@@ -10,6 +10,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -17,6 +18,8 @@ import com.example.module_compose.R
 import com.example.module_compose.style.DinBold
 import com.example.module_compose.style.DinCondBold
 import com.example.module_compose.ui.theme.ComposeTheme
+import com.example.module_compose.ui.theme.DailyExerciseTime
+import com.example.module_compose.unread
 import com.zj.refreshlayout.SwipeRefreshLayout
 import kotlinx.coroutines.delay
 
@@ -26,7 +29,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun WorkoutPage() {
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier.fillMaxSize().background(color = MaterialTheme.colors.primary)) {
         TopNavigationBar("所有运动", rightTxt = "统计")
 
         TextButton(onClick = { /*TODO*/ }, modifier = Modifier.height(40.dp)) {
@@ -76,6 +79,7 @@ private fun WorkoutItem() {
             painterResource(R.drawable.icon_workout_amp), null,
             Modifier
                 .size(80.dp)
+                .unread(true, DailyExerciseTime)
                 .clip(RoundedCornerShape(8.dp))
                 .constrainAs(workoutMap) {
                     top.linkTo(parent.top)
@@ -160,5 +164,13 @@ private fun WorkoutItem() {
             end.linkTo(parent.end, margin = 16.dp)
             bottom.linkTo(parent.bottom)
         }, tint = ComposeTheme.colors.dailyCalories)
+    }
+}
+
+@Preview
+@Composable
+fun WorkoutPreview() {
+    ComposeTheme {
+        WorkoutPage()
     }
 }

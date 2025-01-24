@@ -9,7 +9,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.module_compose.ui.theme.ComposeTheme
 import com.example.module_compose.widget.BottomTabBar
 import com.example.module_compose.widget.HomeContent
@@ -66,5 +70,12 @@ fun DefaultPreview() {
 
             BottomTabBar(currentPage.currentPage, Modifier.background(ComposeTheme.colors.navigation))
         }
+    }
+}
+
+fun Modifier.unread(show: Boolean, color: Color): Modifier = this.drawWithContent {
+    drawContent()
+    if (show) {
+        drawCircle(color, 5.dp.toPx(), Offset(size.width - 1.dp.toPx(), 1.dp.toPx()))
     }
 }
