@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.friean.build'
+apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -45,10 +46,6 @@ dependencies {
     testImplementation rootProject.ext.dependencies.libjunit
     androidTestImplementation rootProject.ext.dependencies.libTestRunner
     androidTestImplementation rootProject.ext.dependencies.libTestEspresso
-
-    //debug版配置
-    debugImplementation 'com.facebook.stetho:stetho:1.6.0'
-    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.6.0'
 
     if (hasProperty("isLoadAndroidBase")?isAndroidBaseLibrary.toBoolean():false){
         implementation project(path: ':androidbase')

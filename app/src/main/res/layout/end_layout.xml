@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom">
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
     <TextView
         android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Scene"
-        android:layout_gravity="top" />
+        android:text="end Scene"
+        android:textSize="20sp"/>
+
 </LinearLayout>
